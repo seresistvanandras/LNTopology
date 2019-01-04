@@ -3,23 +3,27 @@ import json
 from pprint import pprint
 import math
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import collections
+import numpy as np
 
 allMoneyStaked = 0
 allWeights = []
 
 def main():
     G=defineGraph(readFile())
-    basicStatistics(G)
+    #basicStatistics(G)
     #degreeDistribution(G)
-    #drawGraph(G)
+    #weightsDistribution(G)
+    #shortestPaths(G)
+    drawGraph(G)
 
 #degreeCentrality
 
 def basicStatistics(G):
     print("Number of LN nodes : ", G.order())
     print("Number of LN payment channels: ", G.size())
-    print("Amount of BTC in all payment channels:", allMoneyStaked)
+    print("Amount of BTC, denominated in Satoshis, in all payment channels:", allMoneyStaked)
     print("Number of connected components: ", len(list(nx.connected_components(G))))
     print("Maximal independent set: ", len(nx.algorithms.maximal_independent_set(G)))
     print("Number of bridges: ", len(list(nx.algorithms.bridges(G))))
@@ -37,9 +41,32 @@ def basicStatistics(G):
     print("LN is planar: ", nx.algorithms.planarity.check_planarity(G))
     print("Number of isolates in LN: ", list(nx.isolates(G)))
 
+def weightsDistribution(G):
+    global allWeights
+    allWeights.sort(reverse=True)
+    edgeCount = collections.Counter(allWeights)
+    weight, cnt = zip(*edgeCount.items())
+
+    fig, ax = plt.subplots()
+    #plt.bar(weight, cnt, width=0.80, color='b')
+
+    plt.hist(allWeights,100)
+    plt.title("Weight Histogram")
+    plt.ylabel("Count")
+    plt.xlabel("Weights")
+    ax.set_xticks([d  for d in weight])
+    ax.set_xticklabels(weight)
+
+    for index, label in enumerate(ax.xaxis.get_ticklabels()):
+        if weight[index] not in [16777216,9000000,5000000,2000000,70000]:
+            label.set_visible(False)
+
+    plt.show()
+
 def degreeDistribution(G):
 
     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+    print(degree_sequence)
     # print "Degree sequence", degree_sequence
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
@@ -54,6 +81,7 @@ def degreeDistribution(G):
     ax.set_xticklabels(deg)
 
     plt.yscale("log")
+    #plt.xscale("log")
     n = 20
     invisible = [202,213,226,291,323,407,415,267,269] ##disturbing degrees
     for index, label in enumerate(ax.xaxis.get_ticklabels()):
@@ -61,14 +89,31 @@ def degreeDistribution(G):
             label.set_visible(False)
     plt.show()
 
+def shortestPaths(G):
+    shortPaths=nx.algorithms.shortest_paths.generic.shortest_path(G)
+    print(shortPaths)
+
 #draw graph in inset
 def drawGraph(G):
-     plt.axes([0.4, 0.4, 0.5, 0.5])
+     #plt.axes([0.4, 0.4, 0.5, 0.5])
      Gcc = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
      pos = nx.spring_layout(G)
+     #pos = nx.drawing.nx_pydot.graphviz_layout(G)
+     fig, ax = plt.subplots()
      plt.axis('off')
-     nx.draw_networkx_nodes(G, pos, node_size=20)
-     nx.draw_networkx_edges(G, pos, alpha=0.4)
+
+     degrees = G.degree()
+     nodes = G.nodes()
+     n_color = np.asarray([degrees[n] for n in nodes])
+
+     #nx.draw(G, nodelist=d.keys(), node_size=[v * 100 for v in d.values()])
+
+
+     sc=nx.draw_networkx_nodes(G, pos, nodelist=nodes, ax=ax, node_size=n_color, node_color=n_color, cmap='viridis')
+     nx.draw_networkx_edges(G, pos, alpha=0.2)
+
+     sc.set_norm(mcolors.LogNorm())
+     fig.colorbar(sc)
 
 if __name__ == "__main__":
     main()
@@ -78,6 +123,7 @@ def defineGraph(data) -> object:
     G = nx.Graph()
     for x in range(len(data)):
         G.add_edge(data[x]['node2_pub'], data[x]['node1_pub'], weight=data[x]['capacity'])
+        allWeights.append(int(data[x]['capacity']))
         allMoneyStaked+=int(data[x]['capacity'])
     return G
 
