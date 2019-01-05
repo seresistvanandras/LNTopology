@@ -4,6 +4,8 @@ from pprint import pprint
 import math
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import matplotlib.ticker as mticker
+from matplotlib.ticker import MaxNLocator
 import collections
 import numpy as np
 import heapq
@@ -20,13 +22,15 @@ def main():
     #weightsDistribution(G)
     #shortestPaths(G)
     #drawGraph(G)
-    #robustness(G)
+    #vertexConnectivity(G)
+    #edgeConnectivity(G)
 
 #degreeCentrality
 
 def basicStatistics(G):
     print("Number of LN nodes : ", G.order())
     print("Number of LN payment channels: ", G.size())
+    print("Density of LN: ",nx.classes.function.density(G))
     print("Amount of BTC, denominated in Satoshis, in all payment channels:", allMoneyStaked)
     print("Number of connected components: ", len(list(nx.connected_components(G))))
     print("Maximal independent set: ", len(nx.algorithms.maximal_independent_set(G)))
@@ -47,14 +51,82 @@ def basicStatistics(G):
     #print("LN's S-metric: ", smetric(G)) #0.6879664061934981
     print("LN average clustering coefficient", approximation.clustering_coefficient.average_clustering(G))
     #print("LN's largest clique size: ", nx.algorithms.approximation.clique.max_clique(G))
+    # Betweenness centrality
+    print("Betweenness-centrality: ", nx.algorithms.centrality.betweenness_centrality(G))
+    # Closeness centrality
+    #clo_cen = nx.closeness_centrality(cam_net_mc)
+    # Eigenvector centrality
+    #eig_cen = nx.eigenvector_centrality(cam_net_mc)
 
-def robustness(G):
-    G.remove_nodes_from(list(nx.connected_components(G))[1])  # there is a small second component
+def vertexConnectivity(G):
     sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
+    comp=[0]
+    cnt=[2]
     print("what?",len(list(nx.connected_components(G))))
     for x in range(30):
         G.remove_node(sortedNodes[x][0])
+        comp.append(x+1)
+        cnt.append(len(list(nx.connected_components(G))))
         print(x+1,len(list(nx.connected_components(G))))
+
+    fig, ax = plt.subplots()
+    plt.bar(comp, cnt, width=0.50, color='r')
+
+    plt.title("Vertex connectivity")
+    plt.ylabel("Number of connected components")
+    plt.xlabel("Number of removed high-degree nodes")
+    ax.set_xticks([d  for d in comp])
+    ax.set_xticklabels(comp)
+
+    left, right = plt.xlim()  # return the current xlim
+    plt.xlim(0, 30.35)
+    print(left,right)
+
+    plt.show()
+
+#4,286,775
+def edgeConnectivity(G):
+    edgeList=list(G.edges())
+    edgeData={}
+    for x in edgeList:
+        capacity = G.get_edge_data(x[0],x[1])
+        edgeData[x] = int(capacity['capacity'])
+
+    sortedEdgeList=reversed(sorted(edgeData.items(), key=lambda kv: kv[1])) #sort edges by capacity
+    counter = [0]
+    cnt = 0
+    target = 1000
+    comp=[2]
+    for i in sortedEdgeList:
+        G.remove_edge(i[0][0],i[0][1])
+        if(comp[-1] < len(list(nx.connected_components(G)))):
+            print(cnt+1)
+        comp.append(len(list(nx.connected_components(G))))
+        counter.append(cnt + 1)
+        if cnt == target:
+            break
+        cnt+=1
+
+
+
+    fig, ax = plt.subplots()
+    plt.bar(counter, comp, width=1, color='r')
+
+    plt.title("Edge connectivity")
+    plt.ylabel("Number of connected components")
+    plt.xlabel("Number of removed high-capacity edges")
+    ax.set_xticks([d for d in counter])
+    ax.set_xticklabels(counter)
+
+    left, right = plt.xlim()  # return the current xlim
+    plt.xlim(-10, 1010)
+
+    n = 100
+    for index, label in enumerate(ax.xaxis.get_ticklabels()):
+        if index % n != 0 :
+            label.set_visible(False)
+
+    plt.show()
 
 def weightsDistribution(G):
     global allWeights
@@ -79,7 +151,6 @@ def weightsDistribution(G):
     plt.show()
 
 def degreeDistribution(G):
-
     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
     print(degree_sequence)
     # print "Degree sequence", degree_sequence
@@ -89,7 +160,6 @@ def degreeDistribution(G):
     fig, ax = plt.subplots()
     plt.bar(deg, cnt, width=0.80, color='b')
     plt.bar(deg, powerList(cnt,-1), color='r', width=0.80)
-
 
     plt.title("Degree Histogram")
     plt.ylabel("Count")
@@ -141,7 +211,7 @@ def defineGraph(data) -> object:
     global allMoneyStaked
     G = nx.Graph()
     for x in range(len(data)):
-        G.add_edge(data[x]['node2_pub'], data[x]['node1_pub'], weight=data[x]['capacity'])
+        G.add_edge(data[x]['node2_pub'], data[x]['node1_pub'], capacity=data[x]['capacity'])
         allWeights.append(int(data[x]['capacity']))
         allMoneyStaked+=int(data[x]['capacity'])
     return G
