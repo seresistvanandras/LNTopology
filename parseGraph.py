@@ -8,6 +8,7 @@ import matplotlib.ticker as mticker
 from matplotlib.ticker import MaxNLocator
 import collections
 import numpy as np
+from random import randint
 import heapq
 from networkx.algorithms import approximation
 
@@ -17,15 +18,19 @@ allWeights = []
 
 def main():
     G=defineGraph(readFile())
-    basicStatistics(G)
-    #degreeDistribution(G)
+    #basicStatistics(G)
+    #degreeDistribution(G) #percentile graph needs to be added
     #weightsDistribution(G)
     #shortestPaths(G)
     #drawGraph(G)
     #vertexConnectivity(G)
     #edgeConnectivity(G)
+    randomVertexConnectivity(G)
+    #centrality(G)
+    #clusteringCoefficient(G)
 
 #degreeCentrality
+
 
 def basicStatistics(G):
     print("Number of LN nodes : ", G.order())
@@ -50,31 +55,105 @@ def basicStatistics(G):
     print("Number of isolates in LN: ", list(nx.isolates(G)))
     #print("LN's S-metric: ", smetric(G)) #0.6879664061934981
     print("LN average clustering coefficient", approximation.clustering_coefficient.average_clustering(G))
+    print("LN's transitivity: ", nx.algorithms.cluster.transitivity(G))
     #print("LN's largest clique size: ", nx.algorithms.approximation.clique.max_clique(G))
-    # Betweenness centrality
-    print("Betweenness-centrality: ", nx.algorithms.centrality.betweenness_centrality(G))
-    # Closeness centrality
-    #clo_cen = nx.closeness_centrality(cam_net_mc)
-    # Eigenvector centrality
-    #eig_cen = nx.eigenvector_centrality(cam_net_mc)
+    #81 onion node :(
+
+def clusteringCoefficient(G):
+    sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
+    print(sortedNodes[0][0])
+    highDegreeNodes = []
+    for x in range(30):
+        highDegreeNodes.append(sortedNodes[x][0])
+
+    clusteringCoefficients=nx.algorithms.cluster.clustering(G)
+    valueArr = []
+    for key,value in clusteringCoefficients.items():
+        valueArr.append(value)
+        print(value)
+    binwidth = 0.01
+    plt.hist(valueArr, bins=np.arange(min(valueArr), max(valueArr) + binwidth, binwidth))
+
+    plt.title("Clustering-coefficient histogram")
+    plt.ylabel("Number of nodes")
+    plt.xlabel("Clustering-coefficient")
+
+    left, right = plt.xlim()  # return the current xlim
+    plt.xlim(-0,1, 1.1)
+    print(left, right)
+
+    plt.yscale("log")
+
+    plt.show()
+
+def centrality(G):
+    G.remove_nodes_from(list(nx.connected_components(G))[1])  # there is a small second component
+    btwCentrality = nx.algorithms.centrality.closeness_centrality(G) #k=300, normalized=True, seed=123
+    btwList=btwCentrality.items()
+    valueArr = []
+    for x in btwList:
+        valueArr.append(x[1])
+    binwidth=0.002
+    plt.hist(valueArr, bins=np.arange(min(valueArr), max(valueArr) + binwidth, binwidth))
+
+    plt.title("Closeness-centrality histogram")
+    plt.ylabel("Number of nodes")
+    plt.xlabel("Closeness-centrality")
+
+    plt.yscale("log")
+
+    plt.show()
+
+#calculating critical threshold for random failures
+def randomVertexConnectivity(G):
+    G.remove_nodes_from(list(nx.connected_components(G))[1])  # there is a small second component
+    sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
+    print(len(list(nx.connected_components(G))))
+    threshold=[]
+    target = 1000
+    Gor=[]
+    sortedNodesList=[]
+    for x in range(target):
+        Gor.append(G.copy())
+        sortedNodesList.append(sortedNodes)
+
+    for y in range(target):
+        for x in range(700):
+            randomNode=randint(0, len(sortedNodesList[y])-1)
+            print(randomNode,len(sortedNodesList[y]))
+            Gor[y].remove_node(sortedNodesList[y][randomNode][0])
+            sortedNodesList[y].remove(sortedNodesList[y][randomNode])
+            if len(list(nx.connected_components(Gor[y]))) == 2:
+                threshold.append(x)
+                print(y,x)
+                break
+    print(threshold)
 
 def vertexConnectivity(G):
     sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
     comp=[0]
     cnt=[2]
+    Gor=[]
+    for x in range(30):
+        Gor.append(G.copy())
     print("what?",len(list(nx.connected_components(G))))
     for x in range(30):
-        G.remove_node(sortedNodes[x][0])
+        print(sortedNodes[x][0])
+        #G.remove_node(sortedNodes[x][0])
+        Gor[x].remove_node(sortedNodes[x][0])
         comp.append(x+1)
-        cnt.append(len(list(nx.connected_components(G))))
-        print(x+1,len(list(nx.connected_components(G))))
+        #cnt.append(len(list(nx.connected_components(G))))
+        #print(x+1,len(list(nx.connected_components(G))))
+        cnt.append(len(list(nx.connected_components(Gor[x]))))
+        print(x+1,len(list(nx.connected_components(Gor[x]))))
+        print(Gor[x].order())
 
     fig, ax = plt.subplots()
     plt.bar(comp, cnt, width=0.50, color='r')
 
     plt.title("Vertex connectivity")
     plt.ylabel("Number of connected components")
-    plt.xlabel("Number of removed high-degree nodes")
+    plt.xlabel("Rank in the list of highest degree nodes")
     ax.set_xticks([d  for d in comp])
     ax.set_xticklabels(comp)
 
@@ -158,15 +237,18 @@ def degreeDistribution(G):
     deg, cnt = zip(*degreeCount.items())
 
     fig, ax = plt.subplots()
-    plt.bar(deg, cnt, width=0.80, color='b')
-    plt.bar(deg, powerList(cnt,-1), color='r', width=0.80)
+    pk=[]
+    for x in cnt:
+        pk.append(x/G.order())
+    print(pk)
+    plt.bar(deg, pk, width=0.80, color='b')
+    plt.bar(deg, powerList(cnt,-2), color='r', width=0.80)
 
     plt.title("Degree Histogram")
     plt.ylabel("Count")
     plt.xlabel("Degree")
     ax.set_xticks([d + 0.4 for d in deg])
     ax.set_xticklabels(deg)
-
 
 
     plt.yscale("log")

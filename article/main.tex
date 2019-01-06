@@ -128,10 +128,10 @@ keys]{cryptocode}
 \makeatother
 
 
-\title{Post-Quantum Verifiable Delay Functions}
-\author[1]{Péter Burcsi}
+\title{Topological Analysis of Bitcoin's Lightning Network }
 \author[1]{István András Seres}
 \author[1]{Dániel A. Nagy}
+\author[1]{Péter Burcsi}
 \affil[1]{Department of Computer Algebra, Eötvös Loránd University}
 \begin{document}
 \maketitle
@@ -139,12 +139,33 @@ keys]{cryptocode}
 \begin{abstract}
      
 \end{abstract}
-\keywords{Cryptography, Verifiable delay function, Post-Quantum Cryptography, Cryptocurrency, Ethereum}
+\keywords{Bitcoin, Lightning Network, Network Topology, Payment Channel Network}
 
 \section{Introduction}
-\section{Background}
-\section{Construction}
-\section{Security arguments}
+\section{Lightning Network's Topology}
+\section{Robustness of LN}
+\subsection{Random Failures}
+\subsection{Targeted attacks}
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{vertexConnectivity.png}
+		\captionof{figure}{LN's vertex connectivity}
+		\label{fig:test1}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{edgeConnectivity.png}
+		\captionof{figure}{LN's edge connectivity}
+		\label{fig:test2}
+	\end{minipage}
+\end{figure}
+
+\subsection{Fixing LN's resilience against attacks}
+percolation threshold
+\section{Privacy}
+topological anomalies have privacy implications, low usage of tor, even tor can not help
 \section{Conclusion}
 \section{Acknowledgements}
 

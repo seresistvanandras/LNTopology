@@ -1,6 +1,9 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Background}{}% 2
-\BOOKMARK [1][-]{section.3}{Construction}{}% 3
-\BOOKMARK [1][-]{section.4}{Security arguments}{}% 4
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 5
-\BOOKMARK [1][-]{section.6}{Acknowledgements}{}% 6
+\BOOKMARK [1][-]{section.2}{Lightning Network's Topology}{}% 2
+\BOOKMARK [1][-]{section.3}{Robustness of LN}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Random Failures}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Targeted attacks}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{Fixing LN's resilience against attacks}{section.3}% 6
+\BOOKMARK [1][-]{section.4}{Privacy}{}% 7
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 8
+\BOOKMARK [1][-]{section.6}{Acknowledgements}{}% 9

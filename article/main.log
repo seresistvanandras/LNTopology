@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  18 DEC 2018 16:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  6 JAN 2019 09:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2036,14 +2036,29 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 136.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 \c__siunitx_mathtt_int=\count402
+
+<vertexConnectivity.png, id=35, 940.2327pt x 513.117pt>
+File: vertexConnectivity.png Graphic file (type png)
+
+<use vertexConnectivity.png>
+Package pdftex.def Info: vertexConnectivity.png used on input line 153.
+(pdftex.def)             Requested size: 213.39568pt x 116.45634pt.
+
+<edgeConnectivity.png, id=37, 940.2327pt x 513.117pt>
+File: edgeConnectivity.png Graphic file (type png)
+
+<use edgeConnectivity.png>
+Package pdftex.def Info: edgeConnectivity.png used on input line 159.
+(pdftex.def)             Requested size: 213.39568pt x 116.45634pt.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 152.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 152.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./vertexConnectivity.png> 
+<./edgeConnectivity.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 173.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 173.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 152.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 152.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 173.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 173.
 
 
 Package rerunfilecheck Warning: File `main.out' has changed.
@@ -2051,28 +2066,29 @@ Package rerunfilecheck Warning: File `main.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 789E66204F76B00EA75E05B8DC8D6847;92
-(rerunfilecheck)             After:  F19365EBE50E18F22F93259399CF6615;288.
+(rerunfilecheck)             Before: E2D59160662A8BAC053EC6C37D29949F;408
+(rerunfilecheck)             After:  22DDEC7271F765C4A2A65297CF62B514;515.
  ) 
 Here is how much of TeX's memory you used:
- 44124 strings out of 494953
- 991674 string characters out of 6180976
- 1115982 words of memory out of 5000000
- 46722 multiletter control sequences out of 15000+600000
- 21115 words of font info for 64 fonts, out of 8000000 for 9000
+ 44161 strings out of 494953
+ 992252 string characters out of 6180976
+ 1118101 words of memory out of 5000000
+ 46751 multiletter control sequences out of 15000+600000
+ 21891 words of font info for 65 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,5n,83p,10375b,733s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/istvan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/
-istvan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/istvan/.te
-xmf-var/fonts/pk/ljfour/jknappen/ec/ecbi1000.600pk> </home/istvan/.texmf-var/fo
-nts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </home/istvan/.texmf-var/fonts/pk/ljf
-our/jknappen/ec/ecrm0800.600pk> </home/istvan/.texmf-var/fonts/pk/ljfour/jknapp
-en/ec/ecrm1200.600pk> </home/istvan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm
-1728.600pk>
-Output written on main.pdf (1 page, 43527 bytes).
+ 62i,8n,83p,10375b,733s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/istvan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/
+istvan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/istvan/.te
+xmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/istvan/.texmf-var/fo
+nts/pk/ljfour/jknappen/ec/ecbi1000.600pk> </home/istvan/.texmf-var/fonts/pk/ljf
+our/jknappen/ec/ecbx0900.600pk> </home/istvan/.texmf-var/fonts/pk/ljfour/jknapp
+en/ec/ecrm0800.600pk> </home/istvan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm
+1200.600pk> </home/istvan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk
+>
+Output written on main.pdf (1 page, 106297 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
- 29 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 265 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
+ 12 named destinations out of 1000 (max. 500000)
+ 79 words of extra memory for PDF output out of 10000 (max. 10000000)
 
