@@ -11,6 +11,11 @@ Satoshi Nakamoto.
 \newblock Bitcoin: A peer-to-peer electronic cash system.
 \newblock 2008.
 
+\bibitem{newman2002assortative}
+Mark~EJ Newman.
+\newblock Assortative mixing in networks.
+\newblock {\em Physical review letters}, 89(20):208701, 2002.
+
 \bibitem{poon2016bitcoin}
 Joseph Poon and Thaddeus Dryja.
 \newblock The bitcoin lightning network: Scalable off-chain instant payments.

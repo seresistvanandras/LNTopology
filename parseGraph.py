@@ -63,6 +63,7 @@ def basicStatistics(G):
     #print("LN's S-metric: ", smetric(G)) #0.6879664061934981
     print("LN average clustering coefficient", approximation.clustering_coefficient.average_clustering(G))
     print("LN's transitivity: ", nx.algorithms.cluster.transitivity(G))
+    print("Average shortest paths: ",nx.algorithms.shortest_paths.generic.average_shortest_path_length(G))
     #print("LN's largest clique size: ", nx.algorithms.approximation.clique.max_clique(G))
     #81 onion node :(
 
