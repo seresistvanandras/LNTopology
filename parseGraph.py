@@ -8,7 +8,9 @@ import matplotlib.ticker as mticker
 from matplotlib.ticker import MaxNLocator
 import collections
 import numpy as np
+import string
 from random import randint
+from random import seed
 import heapq
 from networkx.algorithms import approximation
 
@@ -18,18 +20,23 @@ allWeights = []
 
 def main():
     G=defineGraph(readFile())
-    #basicStatistics(G)
+    basicStatistics(G)
     #degreeDistribution(G) #percentile graph needs to be added
     #weightsDistribution(G)
     #shortestPaths(G)
     #drawGraph(G)
     #vertexConnectivity(G)
     #edgeConnectivity(G)
-    randomVertexConnectivity(G)
+    #randomVertexConnectivity(G)
     #centrality(G)
     #clusteringCoefficient(G)
+    #simpleStatistics(G)
 
 #degreeCentrality
+
+def simpleStatistics(G):
+    a=[22, 1, 11, 6, 5,15, 26, 15, 8, 9,47, 13, 8, 3, 12,6, 22, 7, 1, 6,44, 7, 12, 14, 4,15, 19, 4, 1, 13]
+    print(np.mean(a)/G.order())
 
 
 def basicStatistics(G):
@@ -110,22 +117,22 @@ def randomVertexConnectivity(G):
     sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
     print(len(list(nx.connected_components(G))))
     threshold=[]
-    target = 1000
+    target = 500
     Gor=[]
     sortedNodesList=[]
-    for x in range(target):
-        Gor.append(G.copy())
-        sortedNodesList.append(sortedNodes)
+    for z in range(target):
+        Gor.append(nx.Graph(G))
+        sortedNodesList.append(sorted(Gor[-1].degree(), key=lambda x: x[1], reverse=True))
 
     for y in range(target):
-        for x in range(700):
-            randomNode=randint(0, len(sortedNodesList[y])-1)
-            print(randomNode,len(sortedNodesList[y]))
+        for x in range(len(sortedNodes)):
+            randomNode=randint(0,len(sortedNodesList[y])-1)
+            #print(randomNode,len(sortedNodesList[y]))
             Gor[y].remove_node(sortedNodesList[y][randomNode][0])
             sortedNodesList[y].remove(sortedNodesList[y][randomNode])
-            if len(list(nx.connected_components(Gor[y]))) == 2:
+            if len(list(nx.connected_components(Gor[y]))) > 1:
                 threshold.append(x)
-                print(y,x)
+                print("BOOM",y,x)
                 break
     print(threshold)
 
