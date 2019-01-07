@@ -146,7 +146,7 @@ Bitcoin's Lightning Network (LN) is a scalability solution for Bitcoin, which al
 \section{Introduction}
 Recently the Bitcoin \cite{nakamoto2008bitcoin} network celebrated its 10th anniversary. During these years Bitcoin gained a huge popularity due to its publicly verifiable, decentralized, permissionless and censorship-resistant nature. This tremendous popularity and increasing interest in Bitcoin pushed its network's throughput to its limits. Without further advancements, the Bitcoin network can only settle $7$ transactions per second (tps), while mainstream centralized payment providers such as Visa and Mastercard can process approximately \num[group-separator={,}]{40000} tps in peak hours. Moreover one might need to pay large transaction fees on the Bitcoin network, while also need to wait 6 new blocks to be published in order to be certain enought that the transaction is included in the blockchain.
 
-\begin{wrapfigure}{r}{0.7\textwidth}
+\begin{wrapfigure}{r}{0.6\textwidth}
 	\begin{center}
 		\includegraphics[width=0.9\textwidth]{LNtopology.png}
 	\end{center}
@@ -163,11 +163,12 @@ Such a network can be built, because LN achieves payments to be made without any
 
 \textbf{Our contributions.} We empirically measure and describe LN's topology and show that it is utterly centralized and fragile against both random failures and targeted attacks. These findings suggest that LN, unlike Bitcoin, is far from being reliable, censorship-resistant, decentralized and private.
 \section{Lightning Network's Topology}
-\begin{wrapfigure}[18]{r}{5.5cm}
+\begin{wrapfigure}[20]{r}{5.5cm}
 	\begin{tabular}{ | l | c | }
 		\hline
 		Number of nodes & $2344$  \\ \hline
 		Number of payment channels & $16617$  \\ \hline
+		Average degree & $7.0891$ \\ \hline
 		Connected components & $2$  \\ \hline
 		Density & $0.00605$ \\ \hline
 		Total BTC held in LN & $543.61855$\bitcoinA\\ \hline
@@ -176,6 +177,7 @@ Such a network can be built, because LN achieves payments to be made without any
 		Bridges & $530$ \\ \hline
 		Diameter & $6$ \\ \hline
 		Radius & $3$ \\ \hline
+		Mean shortest path &  $2.80623$ \\ \hline
 		Transitivity& $0.1046$\\ \hline
 		Average clustering coefficient&$0.304$ \\ \hline
 		Degree assortativity& $-0.2690$ \\ \hline
@@ -185,7 +187,7 @@ Such a network can be built, because LN achieves payments to be made without any
 
 LN can be described as a weighted graph $G=(V,E)$, where $V$ is the set of LN nodes and $E$ is the set of bidirectional payment channels between these nodes. We took a snapshot\footnote{https://graph.lndexplorer.com} of LN's topology on the 10th birthday of Bitcoin, 2019 January 3rd. In the following we are going to analyze this dataset.
 
-LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a parse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN is consisted of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
+LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations (c-lightning, eclair and lnd) and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a parse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN is consisted of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
 
 However LN also exhibits somewhat scale-free properties as the s-metric suggests. S-metric was first introduced by Lun Li et al. in \cite{li2005towards} and defined as $s(G)=\sum_{(u,v)\in E}deg(u)deg(v)$. The closer to $1$  s-metric of $G$ is, the more scale-free the network. Diameter and radius of LN suggests that LN is a small world. Somewhat scale-freeness is also exhibited in the degree distribution of LN. Majority of nodes have very few payment channels, although there are a few hubs who have significantly more connections as it can be seen in Figure~\ref{fig:degreedist}.
 
@@ -198,11 +200,34 @@ However LN also exhibits somewhat scale-free properties as the s-metric suggests
 
 Negative degree assortativity of the graph indicates that on average low degree nodes tend to connect to high degree nodes rather than low degree nodes \cite{newman2002assortative}. Such a dissortative property hints a hub and spoke network structure, which is also reflected in the degree distribution, see Figure~\ref{fig:degreedist}.
 
-
+Average shortest path length is $2.80623$, which signals that payments can easily be routed with a few hops throughout the whole network. Although this is far from being a straightforward task, since one also needs to take into consideration the capacity of individual payment channels along a candidate path.
 
 \section{Robustness of LN}
+It is a major question in network science how robust a given network is. LN, just like Bitcoin, is a permissionless network, where nodes can join and leave arbitrarily at any point in time. Nodes can also create new payment channels or close them any time. Furthermore as new payments are made, capacities of payment channels are changing steadily. Despite the dynamic nature of LN, its topology's characteristics remain constant after all.
+In this section we investigate how resilient is LN, whether it can effectively withhold random node failures or deliberate attacks.
 \subsection{Random Failures}
+\begin{wrapfigure}[15]{r}{5.5cm}
+	\begin{tabular}{ | l | c | }
+		\hline
+		Network & $f_c$  \\ \hline
+		Internet & $0.92$  \\ \hline
+		WWW & $0.88$ \\ \hline
+		US Power Grid & $0.61$  \\ \hline
+		Mobil Phone Call & $0.78$ \\ \hline
+		E-mail & $0.92$ \\ \hline
+		Science collaboration& $0.92$ \\ \hline
+		E. Coli Metabolism & $0.96$ \\ \hline
+		Yeast Protein Interactions & $0.88$ \\ \hline
+		LN & $0.00535$ \\ \hline
+	\end{tabular}
+	\caption{Random failures in networks. Values of critical thresholds for other real networks are taken from \cite{barabasi2016network}.}\label{fig:randfailures}
+\end{wrapfigure}
+
+Random failures are a realistic attack vector for LN. If nodes happen to be off-line due to bad connections or other reasons, they can not participate in routing payments anymore. Such a failure can be modeled as if a node and its edges are removed from the graph. We continually remove nodes from the graph, until the networks is broken into several isolated components. The fraction of nodes need to be removed from a network to break it into multiple connected components is called critical threshold and denoted as $f_c$. As Figure~\ref{fig:randfailures} displays LN is not capable of withstanding even random failures. This incapability is even more striking when compared to other real networks.
+
+
 \subsection{Targeted attacks}
+Targeted attacks on LN nodes are also a major concern as the short history of LN has already shown this. On 2018 March 21st \footnote{https://www.trustnodes.com/2018/03/21/lightning-network-ddos-sends-20-nodes}, $20\%$ of nodes were down due to a Distributed Denial of Service (DDoS) attack against LN nodes. Denial of Service (DoS) attacks are also quite probable by flooding HTLCs. These attack vectors are extremely harmful, especially if they are coordinated well. One might expect that not only state-sponsored attackers will have the resources to attack a small network like LN.   
 \begin{figure}[h]
 	\centering
 	\begin{minipage}{.5\textwidth}
@@ -224,6 +249,7 @@ percolation threshold
 \section{Privacy}
 topological anomalies have privacy implications, low usage of tor, even tor can not help
 \section{Conclusion}
+false sense of security and robustness
 \section{Acknowledgements}
 
 \bibliographystyle{plain}

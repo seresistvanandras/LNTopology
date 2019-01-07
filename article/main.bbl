@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{barabasi2016network}
+Albert-L{\'a}szl{\'o} Barab{\'a}si et~al.
+\newblock {\em Network science}.
+\newblock Cambridge university press, 2016.
+
 \bibitem{li2005towards}
 Lun Li, David Alderson, John~C Doyle, and Walter Willinger.
 \newblock Towards a theory of scale-free graphs: Definition, properties, and

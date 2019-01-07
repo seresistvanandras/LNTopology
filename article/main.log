@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  6 JAN 2019 21:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  7 JAN 2019 11:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2088,29 +2088,29 @@ File: LNtopology.png Graphic file (type png)
 Package pdftex.def Info: LNtopology.png used on input line 151.
 (pdftex.def)             Requested size: 384.1096pt x 209.61987pt.
 
-Overfull \hbox (85.35696pt too wide) in paragraph at lines 151--152
+Overfull \hbox (128.0322pt too wide) in paragraph at lines 151--152
  [] 
  []
 
 
-Underfull \hbox (badness 5460) in paragraph at lines 159--160
-[]\T1/aer/m/n/10 Bidirectional pay-ment
+Underfull \hbox (badness 1783) in paragraph at lines 159--160
+[]\T1/aer/m/n/10 Bidirectional pay-ment chan-nels
  []
 
 
-Underfull \hbox (badness 3039) in paragraph at lines 159--160
-\T1/aer/m/n/10 chan-nels can be formed
+Underfull \hbox (badness 2351) in paragraph at lines 159--160
+\T1/aer/m/n/10 can be formed on-chain us-ing a
  []
 
 
-Underfull \hbox (badness 5490) in paragraph at lines 159--160
-\T1/aer/m/n/10 lock Con-tracts (HTLC).
+Underfull \hbox (badness 2111) in paragraph at lines 159--160
+\T1/aer/m/n/10 con-struc-tion called Hashed Time-
  []
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./LNtopology.png>]
-Overfull \hbox (46.33644pt too wide) in paragraph at lines 167--183
+Overfull \hbox (46.33644pt too wide) in paragraph at lines 167--185
 [][] 
  []
 
@@ -2118,77 +2118,53 @@ Overfull \hbox (46.33644pt too wide) in paragraph at lines 167--183
 File: degreehistogramlogscale.png Graphic file (type png)
 
 <use degreehistogramlogscale.png>
-Package pdftex.def Info: degreehistogramlogscale.png used on input line 195.
+Package pdftex.def Info: degreehistogramlogscale.png used on input line 197.
 (pdftex.def)             Requested size: 362.77525pt x 197.97736pt.
 
-Overfull \hbox (106.69785pt too wide) in paragraph at lines 195--196
+Overfull \hbox (106.69785pt too wide) in paragraph at lines 197--198
  [] 
  []
 
-<vertexConnectivity.png, id=73, 940.2327pt x 513.117pt>
+
+Underfull \hbox (badness 1365) in paragraph at lines 203--204
+\T1/aer/m/n/10 can eas-ily be routed with a few
+ []
+
+[2 <./degreehistogramlogscale.png>]
+Overfull \hbox (16.12619pt too wide) in paragraph at lines 210--223
+[][] 
+ []
+
+<vertexConnectivity.png, id=95, 940.2327pt x 513.117pt>
 File: vertexConnectivity.png Graphic file (type png)
 
 <use vertexConnectivity.png>
-Package pdftex.def Info: vertexConnectivity.png used on input line 210.
+Package pdftex.def Info: vertexConnectivity.png used on input line 235.
 (pdftex.def)             Requested size: 213.39568pt x 116.45634pt.
 
-<edgeConnectivity.png, id=74, 940.2327pt x 513.117pt>
+<edgeConnectivity.png, id=96, 940.2327pt x 513.117pt>
 File: edgeConnectivity.png Graphic file (type png)
 
 <use edgeConnectivity.png>
-Package pdftex.def Info: edgeConnectivity.png used on input line 216.
+Package pdftex.def Info: edgeConnectivity.png used on input line 241.
 (pdftex.def)             Requested size: 213.39568pt x 116.45634pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[2 <./degreehistogramlogscale.png>] (./main.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 20--24
-[]\T1/aer/m/n/10 Joseph Poon and Thad-deus
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 20--24
-\T1/aer/m/it/10 network/lightning-network-paper.
- []
-
-
-Underfull \hbox (badness 1874) in paragraph at lines 26--30
-[]\T1/aer/m/n/10 Stefanie Roos, Pe-dro Moreno-
- []
-
-
-Underfull \hbox (badness 2376) in paragraph at lines 26--30
-\T1/aer/m/n/10 Gold-berg.  Set-tling pay-ments
- []
-
-
-Underfull \hbox (badness 1082) in paragraph at lines 26--30
-\T1/aer/m/n/10 tral-ized rout-ing for path-based
- []
-
-
-Underfull \hbox (badness 4120) in paragraph at lines 26--30
-\T1/aer/m/n/10 trans-ac-tions.  \T1/aer/m/it/10 arXiv preprint
- []
-
-[3 <./vertexConnectivity.png> <./edgeConnectivity.png>]) [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 232.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 232.
+ [3 <./vertexConnectivity.png> <./edgeConnectivity.png>] (./main.bbl) [4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 258.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 258.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 232.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 232.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 258.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 258.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 22DDEC7271F765C4A2A65297CF62B514;515.
  ) 
 Here is how much of TeX's memory you used:
- 44770 strings out of 494953
- 1002246 string characters out of 6180976
- 1133154 words of memory out of 5000000
- 47262 multiletter control sequences out of 15000+600000
+ 44775 strings out of 494953
+ 1002336 string characters out of 6180976
+ 1133347 words of memory out of 5000000
+ 47264 multiletter control sequences out of 15000+600000
  50163 words of font info for 113 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,9n,92p,10375b,877s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,9n,92p,10375b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
@@ -2205,10 +2181,10 @@ share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on main.pdf (4 pages, 723015 bytes).
+Output written on main.pdf (4 pages, 729843 bytes).
 PDF statistics:
- 168 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
- 25 named destinations out of 1000 (max. 500000)
+ 175 PDF objects out of 1000 (max. 8388607)
+ 141 compressed objects within 2 object streams
+ 28 named destinations out of 1000 (max. 500000)
  105 words of extra memory for PDF output out of 10000 (max. 10000000)
 

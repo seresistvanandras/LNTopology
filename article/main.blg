@@ -4,45 +4,45 @@ The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: sample.bib
 Warning--empty journal in nakamoto2008bitcoin
-You've used 5 entries,
+You've used 6 entries,
             2118 wiz_defined-function locations,
-            528 strings with 4797 characters,
-and the built_in function-call counts, 1437 in all, are:
-= -- 135
-> -- 73
+            532 strings with 4903 characters,
+and the built_in function-call counts, 1685 in all, are:
+= -- 157
+> -- 86
 < -- 0
-+ -- 30
-- -- 24
-* -- 98
-:= -- 263
-add.period$ -- 15
-call.type$ -- 5
-change.case$ -- 27
++ -- 35
+- -- 28
+* -- 109
+:= -- 307
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 30
 chr.to.int$ -- 0
-cite$ -- 6
-duplicate$ -- 52
-empty$ -- 105
-format.name$ -- 24
-if$ -- 282
+cite$ -- 7
+duplicate$ -- 64
+empty$ -- 127
+format.name$ -- 28
+if$ -- 335
 int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 5
-newline$ -- 28
-num.names$ -- 10
-pop$ -- 25
+int.to.str$ -- 6
+missing$ -- 7
+newline$ -- 33
+num.names$ -- 12
+pop$ -- 33
 preamble$ -- 1
-purify$ -- 22
+purify$ -- 25
 quote$ -- 0
-skip$ -- 36
+skip$ -- 44
 stack$ -- 0
-substring$ -- 69
-swap$ -- 4
+substring$ -- 74
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 20
+type$ -- 22
 warning$ -- 1
-while$ -- 13
-width$ -- 6
-write$ -- 53
+while$ -- 15
+width$ -- 7
+write$ -- 63
 (There was 1 warning)
