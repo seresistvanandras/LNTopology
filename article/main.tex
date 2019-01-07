@@ -139,7 +139,7 @@ keys]{cryptocode}
 \maketitle
 
 \begin{abstract}
-Bitcoin's Lightning Network (LN) is a scalability solution for Bitcoin, which allows transactions to be issued with negligible fees and settle transactions instantly at scale. In order to use LN funds need to be locked in payment channels on the Bitcoin blockchain (Layer-1), that one may use them in LN (Layer-2). LN is comprised of many payment channels forming a payment channel network. A few payment channels already enable anyone to efficiently, securely and privately route payments across the whole network. In this paper we argue that LN's current topological properties largely harms its value proposition and potential.  
+Bitcoin's Lightning Network (LN) is a scalability solution for Bitcoin, which allows transactions to be issued with negligible fees and settle transactions instantly at scale. In order to use LN, funds need to be locked in payment channels on the Bitcoin blockchain (Layer-1), that one may use them in LN (Layer-2). LN is comprised of many payment channels forming a payment channel network. LN promises that a few payment channels already enable anyone to efficiently, securely and privately route payments across the whole network. In this paper we quantify the structural properties of LN and argue that LN's current topological properties largely harms its value proposition and potential.  
 \end{abstract}
 \keywords{Bitcoin, Lightning Network, Network Topology, Payment Channel Network}
 
@@ -147,10 +147,12 @@ Bitcoin's Lightning Network (LN) is a scalability solution for Bitcoin, which al
 Recently the Bitcoin \cite{nakamoto2008bitcoin} network celebrated its 10th anniversary. During these years Bitcoin gained a huge popularity due to its publicly verifiable, decentralized, permissionless and censorship-resistant nature. This tremendous popularity and increasing interest in Bitcoin pushed its network's throughput to its limits. Without further advancements, the Bitcoin network can only settle $7$ transactions per second (tps), while mainstream centralized payment providers such as Visa and Mastercard can process approximately \num[group-separator={,}]{40000} tps in peak hours. Moreover one might need to pay large transaction fees on the Bitcoin network, while also need to wait 6 new blocks to be published in order to be certain enought that the transaction is included in the blockchain.
 
 \begin{wrapfigure}{r}{0.6\textwidth}
+	\captionsetup{justification=centering,margin=0.5cm}
 	\begin{center}
 		\includegraphics[width=0.9\textwidth]{LNtopology.png}
 	\end{center}
-	\caption{LN's topology. Nodes with higher degree are highlighted with lighter colors}
+	
+	\caption{LN's topology. Nodes with higher degree are highlighted with lighter colors and larger circles.}\label{fig:lntopology}
 	\vspace{-10pt}
 \end{wrapfigure}
 
@@ -161,7 +163,7 @@ Bidirectional payment channels can be formed on-chain using a construction calle
 Using these payment channels as building blocks one might establish a payment channel network, where it is not necessary to have direct payment channels between nodes to transact with each other, but they could simply route their payments through other nodes' payment channels.
 Such a network can be built, because LN achieves payments to be made without any counterparty risk, however efficient and privacy-preserving payment routing remains a challenging algorithmic task \cite{roos2017settling}.    
 
-\textbf{Our contributions.} We empirically measure and describe LN's topology and show that it is utterly centralized and fragile against both random failures and targeted attacks. These findings suggest that LN, unlike Bitcoin, is far from being reliable, censorship-resistant, decentralized and private.
+\textbf{Our contributions.} We empirically measure and describe LN's topology and show that it is utterly centralized and fragile against both random failures and targeted attacks. These findings suggest that LN, unlike Bitcoin, is undoubtedly far from being reliable, censorship-resistant, decentralized and private.
 \section{Lightning Network's Topology}
 \begin{wrapfigure}[20]{r}{5.5cm}
 	\begin{tabular}{ | l | c | }
@@ -202,6 +204,34 @@ Negative degree assortativity of the graph indicates that on average low degree 
 
 Average shortest path length is $2.80623$, which signals that payments can easily be routed with a few hops throughout the whole network. Although this is far from being a straightforward task, since one also needs to take into consideration the capacity of individual payment channels along a candidate path.
 
+When a new node joins LN, it needs to select which other nodes it is trying to connect to. In every LN implementation one of the key goal of a node is to optimize its centrality by connecting to central nodes. This phenomena sets up a preferential attachment pattern. Betweenness centrality of a node $v$ is given by the expression $g(v)=\sum_{s\neq v \neq t}\frac{\sigma_{st}(v)}{\sigma_{st}},$ where $\sigma_{st}$ is the total number of shortest paths between node $s$ and $t$, whilst $\sigma_{st}(v)$ is the number of those paths, that pass through $v$. Closeness centrality  of a node $v$ is defined as $CC(u)=\frac{N}{\sum_{u\neq v}d(u,v)},$ where $N$ is the number nodes in the graph and $d(u,v)$ is the distance between node $u$ and $v$.  Closeness centrality measures how close a node is to all other nodes. 
+
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{.6\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{betweennessCentrality.png}
+		\captionof{figure}{LN's betweenness centrality}
+		\label{fig:betweennescentrality}
+	\end{minipage}%
+	\begin{minipage}{.6\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{closenessCentrality.png}
+		\captionof{figure}{LN's closeness centrality}
+		\label{fig:closenesscentrality}
+	\end{minipage}
+\end{figure}
+
+Small-world architectures, like LN, exhibit high clustering with short path lenghts. The appropriate graph theoretic tool to asses clustering is the clustering coefficient \cite{watts1998collective}. Local clustering coefficient measures how well a node's neighbors are connected to each other, namely how close they are to being a clique. If a node $u$ has $deg(u)$ neighbors, then between these $deg(u)$ neighbors could be at maximum $\frac{1}{2}deg(u)(deg(u)-1)$ edges. If $N(u)$ denotes the set of $u$'s neighbors, then the local clustering coefficient is defined as $C(u)=\frac{2\mid (v,w): v,w \in N(u) \land (v,w) \in E \mid}{deg(u)(deg(u)-1)}$. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{clusteringCoefficient.png}
+	\caption{Local clustering coefficient of LN}\label{fig:localclustering}
+\end{figure} 
+
+ LN's local clustering coefficient distribution suggestively captures that LN is essentially comprised of a small central clique and a loosely connected periphery.
+
 \section{Robustness of LN}
 It is a major question in network science how robust a given network is. LN, just like Bitcoin, is a permissionless network, where nodes can join and leave arbitrarily at any point in time. Nodes can also create new payment channels or close them any time. Furthermore as new payments are made, capacities of payment channels are changing steadily. Despite the dynamic nature of LN, its topology's characteristics remain constant after all.
 In this section we investigate how resilient is LN, whether it can effectively withhold random node failures or deliberate attacks.
@@ -223,33 +253,40 @@ In this section we investigate how resilient is LN, whether it can effectively w
 	\caption{Random failures in networks. Values of critical thresholds for other real networks are taken from \cite{barabasi2016network}.}\label{fig:randfailures}
 \end{wrapfigure}
 
-Random failures are a realistic attack vector for LN. If nodes happen to be off-line due to bad connections or other reasons, they can not participate in routing payments anymore. Such a failure can be modeled as if a node and its edges are removed from the graph. We continually remove nodes from the graph, until the networks is broken into several isolated components. The fraction of nodes need to be removed from a network to break it into multiple connected components is called critical threshold and denoted as $f_c$. As Figure~\ref{fig:randfailures} displays LN is not capable of withstanding even random failures. This incapability is even more striking when compared to other real networks.
+Random failures are a realistic attack vector for LN. If nodes happen to be off-line due to bad connections or other reasons, they can not participate in routing payments anymore. Such a failure can be modeled as if a node and its edges are removed from the graph. We continually remove nodes from the graph, until the networks is broken into several isolated components. The fraction of nodes need to be removed from a network to break it into multiple connected components is called critical threshold and denoted as $f_c$. As Figure~\ref{fig:randfailures}. displays LN is not capable of withstanding even random failures. This incapability is even more striking when compared to other real networks.
 
 
 \subsection{Targeted attacks}
-Targeted attacks on LN nodes are also a major concern as the short history of LN has already shown this. On 2018 March 21st \footnote{https://www.trustnodes.com/2018/03/21/lightning-network-ddos-sends-20-nodes}, $20\%$ of nodes were down due to a Distributed Denial of Service (DDoS) attack against LN nodes. Denial of Service (DoS) attacks are also quite probable by flooding HTLCs. These attack vectors are extremely harmful, especially if they are coordinated well. One might expect that not only state-sponsored attackers will have the resources to attack a small network like LN.   
+Targeted attacks on LN nodes are also a major concern as the short history of LN has already shown it. On 2018 March 21st \footnote{https://www.trustnodes.com/2018/03/21/lightning-network-ddos-sends-20-nodes}, $20\%$ of nodes were down due to a Distributed Denial of Service (DDoS) attack against LN nodes. Denial of Service (DoS) attacks are also quite probable by flooding HTLCs. These attack vectors are extremely harmful, especially if they are coordinated well. One might expect that not only state-sponsored attackers will have the resources to attack a small network like LN. In the first attack scenario we removed 30 highest-degree nodes one by one starting with the most well-connected one and gradually witdhraw the subsequent high-degree nodes. We recorded the number of connected components. As it is shown in Figure~\ref{fig:vertexconnectivity}. even just removing the highest-degree node\footnote{http://rompert.com/} fragments the LN graph into 37 connected components! Altogether the removal of the $30$ largest hubs incurs LN to collapse into $424$ components.     
 \begin{figure}[h]
 	\centering
-	\begin{minipage}{.5\textwidth}
+	\begin{minipage}{.6\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{vertexConnectivity.png}
-		\captionof{figure}{LN's vertex connectivity}
-		\label{fig:test1}
+		\captionof{figure}{LN's vertex connectivity, when all the $30$ largest hubs are removed one by one}
+		\label{fig:vertexconnectivity}
 	\end{minipage}%
-	\begin{minipage}{.5\textwidth}
+	\begin{minipage}{.6\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{edgeConnectivity.png}
-		\captionof{figure}{LN's edge connectivity}
-		\label{fig:test2}
+		\includegraphics[width=\linewidth]{vertexConnectivity1Removed.png}
+		\captionof{figure}{LN's vertex connectivity if only one high-degree node is removed from the graph.}
+		\label{fig:vertecconnectivity1removed}
 	\end{minipage}
 \end{figure}
 
-\subsection{Fixing LN's resilience against attacks}
-percolation threshold
+We reasserted the targeted attack scenario, but for the second time we only removed one of the $30$ largest hubs and recorded the number of connected components. As it can be seen in Figure~\ref{fig:vertecconnectivity1removed} most of the hubs (25!) are so critical that their removal would be catastrophic for LN, namely they would leave behind several disconnected components.
+
+Such network fragmentations are unwanted in case of LN, because they would make payment routing substantially more challenging (one needs to split the payment over several routes) or even impossible (there would be no routes at all). An analogous dissolution would effectively render LN non-functional. 
+
+\subsection{Fixing LN's resilience against random failures and attacks}
+Designing networks which are robust to random failures and targeted attacks appear to be a conflicting desire \cite{barabasi2016network}. For instance a star graph, the simplest hub and spoke network, is resilient to random failures. The removal of any set of spokes does not hurt the connectedness of the main component. However it can not withstand a targeted attack against its central node, since it would leave behind isolated spokes. 
+
+Nonetheless, we could still enhance the network's attack tolerance by connecting its peripheral nodes \cite{barabasi2016network} and
+mandating newcomers to connect to not only hubs as current implementations do but also to at least a few random nodes. This would envolve that even the removal of major hubs would leave the connectedness of the major component intact.
 \section{Privacy}
 topological anomalies have privacy implications, low usage of tor, even tor can not help
 \section{Conclusion}
-false sense of security and robustness
+Shiny figures of LN's topology, like Figure~\ref{fig:lntopology}, convey only false sense of security and robustness.
 \section{Acknowledgements}
 
 \bibliographystyle{plain}

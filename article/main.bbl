@@ -33,4 +33,9 @@ Stefanie Roos, Pedro Moreno-Sanchez, Aniket Kate, and Ian Goldberg.
   for path-based transactions.
 \newblock {\em arXiv preprint arXiv:1709.05748}, 2017.
 
+\bibitem{watts1998collective}
+Duncan~J Watts and Steven~H Strogatz.
+\newblock Collective dynamics of ‘small-world’networks.
+\newblock {\em nature}, 393(6684):440, 1998.
+
 \end{thebibliography}

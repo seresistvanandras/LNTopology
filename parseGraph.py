@@ -30,7 +30,7 @@ def main():
     #randomVertexConnectivity(G)
     #centrality(G)
     #clusteringCoefficient(G)
-    simpleStatistics(G)
+    #simpleStatistics(G)
 
 #degreeCentrality
 
@@ -147,13 +147,13 @@ def vertexConnectivity(G):
     print("what?",len(list(nx.connected_components(G))))
     for x in range(30):
         print(sortedNodes[x][0])
-        #G.remove_node(sortedNodes[x][0])
-        Gor[x].remove_node(sortedNodes[x][0])
+        G.remove_node(sortedNodes[x][0])
+        #Gor[x].remove_node(sortedNodes[x][0])
         comp.append(x+1)
-        #cnt.append(len(list(nx.connected_components(G))))
-        #print(x+1,len(list(nx.connected_components(G))))
-        cnt.append(len(list(nx.connected_components(Gor[x]))))
-        print(x+1,len(list(nx.connected_components(Gor[x]))))
+        cnt.append(len(list(nx.connected_components(G))))
+        print(x+1,len(list(nx.connected_components(G))))
+        #cnt.append(len(list(nx.connected_components(Gor[x]))))
+        #print(x+1,len(list(nx.connected_components(Gor[x]))))
         print(Gor[x].order())
 
     fig, ax = plt.subplots()
