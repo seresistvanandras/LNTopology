@@ -8,9 +8,12 @@ import matplotlib.ticker as mticker
 from matplotlib.ticker import MaxNLocator
 import collections
 import numpy as np
+from mpmath import mp
+from decimal import *
 import string
 from random import randint
 from random import seed
+from scipy import special as spcl
 import heapq
 from networkx.algorithms import approximation
 
@@ -31,11 +34,73 @@ def main():
     #centrality(G)
     #clusteringCoefficient(G)
     #simpleStatistics(G)
+    fittingGamma(G)
+
+def gammaF(G, Kmin):
+    sum = 0
+    counter = 0
+    for x in G.nodes():
+        if(G.degree(x)>=Kmin):
+            sum += np.log(G.degree(x) / (Kmin - 0.5))
+            counter+=1
+    gamma = 1 + counter * (1 / sum)
+    return gamma
 
 #degreeCentrality
+def fittingGamma(G):
+    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+    # print "Degree sequence", degree_sequence
+    degreeCount = collections.Counter(degree_sequence)
+    deg, cnt = zip(*degreeCount.items())
+
+    minmaxD = 100
+    optimalK = 0
+    maxD = []
+    for Kmin in deg:
+        gamma = gammaF(G,Kmin)
+
+        maxDistance = 0
+        cdf = [] #cumulative distribution func
+        cdfOrdered = {}
+
+        for y in deg:
+            if(spcl.zeta(gamma,Kmin)!=0.0):
+                CDF = 1-(spcl.zeta(gamma,y))/(spcl.zeta(gamma,Kmin))
+            else:
+                CDF = 0
+            cdf.append(CDF)
+            cdfOrdered[y] = CDF
+
+        #Kolmogorov-Smirnov test
+        for z in deg:
+            if (z >= Kmin):
+                if abs(cdfOrdered[z]-(empiricalCDF(deg,cnt,z)/G.order()))>maxDistance:
+                    maxDistance = abs(cdfOrdered[z]-(z/G.order()))
+        if maxDistance < minmaxD:
+            minmaxD = maxDistance
+            optimalK = Kmin
+        maxD.append(maxDistance)
+
+    deviation=1/math.sqrt(G.order()*((mp.zeta(gamma,optimalK,2)/spcl.zeta(gamma,optimalK))-math.pow((mp.zeta(gamma,optimalK,1)/spcl.zeta(gamma,optimalK)),2)))
+
+    print(optimalK)
+    print("Approximated exponent in the power-law distribution: ",gammaF(G, optimalK))
+    print("Deviation of the approximation: ", deviation)
+    plt.plot(np.array(deg), np.array(maxD), '.', color='green')
+
+def empiricalCDF(deg, cnt, z):
+    sum = 0
+    counter = 0
+    for w in deg:
+        if (w<=z):
+            sum+=cnt[counter]
+        counter+=1
+    return sum
+
+
 
 def simpleStatistics(G):
-    a=[22, 1, 11, 6, 5,15, 26, 15, 8, 9,47, 13, 8, 3, 12,6, 22, 7, 1, 6,44, 7, 12, 14, 4,15, 19, 4, 1, 13]
+    a=[2234, 2117, 1493, 2196, 2160, 1767, 1908, 1796, 685, 650, 1934, 2234, 1362, 1872, 1731, 493, 459, 1060, 486, 471, 1546, 1439, 861, 1766, 1604, 910, 2229, 878, 938, 819]
     print(np.mean(a)/G.order())
 
 
@@ -112,26 +177,27 @@ def centrality(G):
 
     plt.show()
 
-#calculating critical threshold for random failures
+#calculating critical percolation threshold for random failures and attacks
 def randomVertexConnectivity(G):
     G.remove_nodes_from(list(nx.connected_components(G))[1])  # there is a small second component
     sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
     print(len(list(nx.connected_components(G))))
     threshold=[]
-    target = 500
+    target = 100
     Gor=[]
     sortedNodesList=[]
-    for z in range(target):
+    for z in range(5):
         Gor.append(nx.Graph(G))
         sortedNodesList.append(sorted(Gor[-1].degree(), key=lambda x: x[1], reverse=True))
 
-    for y in range(target):
-        for x in range(len(sortedNodes)):
-            randomNode=randint(0,len(sortedNodesList[y])-1)
-            #print(randomNode,len(sortedNodesList[y]))
-            Gor[y].remove_node(sortedNodesList[y][randomNode][0])
-            sortedNodesList[y].remove(sortedNodesList[y][randomNode])
-            if len(list(nx.connected_components(Gor[y]))) > 1:
+    for y in range(5):
+        for x in range(2340):
+            #randomNode=randint(0,len(sortedNodesList[y])-1)
+            #Gor[y].remove_node(sortedNodesList[y][randomNode][0])
+            #sortedNodesList[y].remove(sortedNodesList[y][randomNode])
+
+            Gor[y].remove_node(sortedNodesList[y][x][0])  # LN is on attack
+            if len(list(nx.connected_components(Gor[y]))[0]) < 23:
                 threshold.append(x)
                 print("BOOM",y,x)
                 break
@@ -145,16 +211,16 @@ def vertexConnectivity(G):
     for x in range(30):
         Gor.append(G.copy())
     print("what?",len(list(nx.connected_components(G))))
-    for x in range(30):
-        print(sortedNodes[x][0])
+    for x in range(200):
+        #print(sortedNodes[x][0])
         G.remove_node(sortedNodes[x][0])
         #Gor[x].remove_node(sortedNodes[x][0])
         comp.append(x+1)
-        cnt.append(len(list(nx.connected_components(G))))
-        print(x+1,len(list(nx.connected_components(G))))
+        cnt.append(len(list(nx.connected_components(G))[0]))
+        print(x+1,len(list(nx.connected_components(G))[0]))
         #cnt.append(len(list(nx.connected_components(Gor[x]))))
-        #print(x+1,len(list(nx.connected_components(Gor[x]))))
-        print(Gor[x].order())
+        #print(x+1,len(list(nx.connected_components(Gor[x]))),len(list(nx.connected_components(Gor[x]))[0]))
+        #print(Gor[x].order())
 
     fig, ax = plt.subplots()
     plt.bar(comp, cnt, width=0.50, color='r')
@@ -250,7 +316,7 @@ def degreeDistribution(G):
         pk.append(x/G.order())
     print(pk)
     plt.bar(deg, pk, width=0.80, color='b')
-    plt.bar(deg, powerList(cnt,-2), color='r', width=0.80)
+    plt.bar(deg, powerList(cnt,-2.7), color='r', width=0.80)
 
     plt.title("Degree Histogram")
     plt.ylabel("Count")

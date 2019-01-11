@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  7 JAN 2019 17:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  11 JAN 2019 18:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1881,7 +1881,11 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \c@definition=\count393
 
-(./main.aux)
+(./main.aux
+
+LaTeX Warning: Label `fig:randfailures' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 138.
@@ -2157,7 +2161,7 @@ Package pdftex.def Info: clusteringCoefficient.png used on input line 229.
 (pdftex.def)             Requested size: 426.79135pt x 232.9127pt.
  [3 <./betweennessCentrality.png> <./closenessCentrality.png> <./clusteringCoef
 ficient.png>]
-Overfull \hbox (16.12619pt too wide) in paragraph at lines 240--253
+Overfull \hbox (1.12614pt too wide) in paragraph at lines 240--252
 [][] 
  []
 
@@ -2165,35 +2169,44 @@ Overfull \hbox (16.12619pt too wide) in paragraph at lines 240--253
 File: vertexConnectivity.png Graphic file (type png)
 
 <use vertexConnectivity.png>
-Package pdftex.def Info: vertexConnectivity.png used on input line 265.
+Package pdftex.def Info: vertexConnectivity.png used on input line 264.
 (pdftex.def)             Requested size: 256.07741pt x 139.74919pt.
 
 <vertexConnectivity1Removed.png, id=116, 940.2327pt x 513.117pt>
 File: vertexConnectivity1Removed.png Graphic file (type png)
 
 <use vertexConnectivity1Removed.png>
-Package pdftex.def Info: vertexConnectivity1Removed.png used on input line 271.
+Package pdftex.def Info: vertexConnectivity1Removed.png used on input line 270.
 
 (pdftex.def)             Requested size: 256.07741pt x 139.74919pt.
 
-Overfull \hbox (85.36346pt too wide) in paragraph at lines 263--275
+Overfull \hbox (85.36346pt too wide) in paragraph at lines 262--274
  []$[]$$[]$ 
+ []
+
+
+Overfull \hbox (1.12614pt too wide) in paragraph at lines 279--291
+[][] 
  []
 
 [4 <./vertexConnectivity.png> <./vertexConnectivity1Removed.png>] (./main.bbl)
 [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 295.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 295.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 295.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 295.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B924920475D67453B362C7A1F63A24C5;535.
+(rerunfilecheck)             Checksum: 7C7A4C492F4D63B3575A08E8FFD0D9D8;538.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 44800 strings out of 494953
- 1003024 string characters out of 6180976
- 1134806 words of memory out of 5000000
+ 44801 strings out of 494953
+ 1003040 string characters out of 6180976
+ 1134855 words of memory out of 5000000
  47281 multiletter control sequences out of 15000+600000
  50163 words of font info for 113 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -2218,10 +2231,10 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb>
-Output written on main.pdf (5 pages, 848347 bytes).
+Output written on main.pdf (5 pages, 848691 bytes).
 PDF statistics:
- 213 PDF objects out of 1000 (max. 8388607)
- 168 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 500000)
+ 216 PDF objects out of 1000 (max. 8388607)
+ 170 compressed objects within 2 object streams
+ 34 named destinations out of 1000 (max. 500000)
  120 words of extra memory for PDF output out of 10000 (max. 10000000)
 
