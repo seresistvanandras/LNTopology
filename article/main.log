@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  11 JAN 2019 18:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  12 JAN 2019 21:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1888,20 +1888,20 @@ LaTeX Warning: Label `fig:randfailures' multiply defined.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
  (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count394
@@ -2055,7 +2055,7 @@ Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count400
 \AtBeginShipoutBox=\box96
-Package hyperref Info: Link coloring ON on input line 138.
+Package hyperref Info: Link coloring ON on input line 139.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -2065,152 +2065,163 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count401
 )
-LaTeX Info: Redefining \ref on input line 138.
-LaTeX Info: Redefining \pageref on input line 138.
-LaTeX Info: Redefining \nameref on input line 138.
+LaTeX Info: Redefining \ref on input line 139.
+LaTeX Info: Redefining \pageref on input line 139.
+LaTeX Info: Redefining \nameref on input line 139.
 
 (./main.out) (./main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
 \c__siunitx_mathsf_int=\count402
-LaTeX Font Info:    Try loading font information for U+msa on input line 138.
+LaTeX Font Info:    Try loading font information for U+msa on input line 139.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 138.
+LaTeX Font Info:    Try loading font information for U+msb on input line 139.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 \c__siunitx_mathtt_int=\count403
 
-<LNtopology.png, id=44, 940.2327pt x 513.117pt>
+<LNtopology.png, id=48, 940.2327pt x 513.117pt>
 File: LNtopology.png Graphic file (type png)
  <use LNtopology.png>
-Package pdftex.def Info: LNtopology.png used on input line 152.
+Package pdftex.def Info: LNtopology.png used on input line 153.
 (pdftex.def)             Requested size: 384.1096pt x 209.61987pt.
 
-Overfull \hbox (128.0322pt too wide) in paragraph at lines 152--153
+Overfull \hbox (128.0322pt too wide) in paragraph at lines 153--154
  [] 
  []
 
 
-Underfull \hbox (badness 1783) in paragraph at lines 161--162
+Underfull \hbox (badness 1783) in paragraph at lines 162--163
 []\T1/aer/m/n/10 Bidirectional pay-ment chan-nels
  []
 
 
-Underfull \hbox (badness 2351) in paragraph at lines 161--162
+Underfull \hbox (badness 2351) in paragraph at lines 162--163
 \T1/aer/m/n/10 can be formed on-chain us-ing a
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 161--162
+Underfull \hbox (badness 2111) in paragraph at lines 162--163
 \T1/aer/m/n/10 con-struc-tion called Hashed Time-
  []
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./LNtopology.png>]
-Overfull \hbox (46.33644pt too wide) in paragraph at lines 169--187
+Overfull \hbox (46.33644pt too wide) in paragraph at lines 170--188
 [][] 
  []
 
-<degreehistogramlogscale.png, id=70, 940.2327pt x 513.117pt>
+
+Package wrapfig Warning: Collision between wrapping environments on input line 
+195.
+
+<degreehistogramlogscale.png, id=72, 940.2327pt x 513.117pt>
 File: degreehistogramlogscale.png Graphic file (type png)
 
 <use degreehistogramlogscale.png>
-Package pdftex.def Info: degreehistogramlogscale.png used on input line 199.
+Package pdftex.def Info: degreehistogramlogscale.png used on input line 198.
 (pdftex.def)             Requested size: 362.77525pt x 197.97736pt.
 
-Overfull \hbox (106.69785pt too wide) in paragraph at lines 199--200
+Overfull \hbox (106.69785pt too wide) in paragraph at lines 198--199
  [] 
  []
 
 
-Underfull \hbox (badness 1365) in paragraph at lines 205--206
+Package wrapfig Warning: Stationary wrapfigure forced to float on input line 20
+2.
+
+
+Underfull \hbox (badness 1365) in paragraph at lines 204--205
 \T1/aer/m/n/10 can eas-ily be routed with a few
  []
 
 [2 <./degreehistogramlogscale.png>]
-<betweennessCentrality.png, id=91, 462.528pt x 346.896pt>
+<betweennessCentrality.png, id=93, 462.528pt x 346.896pt>
 File: betweennessCentrality.png Graphic file (type png)
 
 <use betweennessCentrality.png>
-Package pdftex.def Info: betweennessCentrality.png used on input line 213.
+Package pdftex.def Info: betweennessCentrality.png used on input line 212.
 (pdftex.def)             Requested size: 256.07741pt x 192.06905pt.
 
-<closenessCentrality.png, id=92, 940.2327pt x 513.117pt>
+<closenessCentrality.png, id=94, 940.2327pt x 513.117pt>
 File: closenessCentrality.png Graphic file (type png)
 
 <use closenessCentrality.png>
-Package pdftex.def Info: closenessCentrality.png used on input line 219.
+Package pdftex.def Info: closenessCentrality.png used on input line 218.
 (pdftex.def)             Requested size: 256.07741pt x 139.74919pt.
 
-Overfull \hbox (85.36346pt too wide) in paragraph at lines 211--223
+Overfull \hbox (85.36346pt too wide) in paragraph at lines 210--222
  []$[]$$[]$ 
  []
 
-<clusteringCoefficient.png, id=94, 940.2327pt x 513.117pt>
+<clusteringCoefficient.png, id=96, 940.2327pt x 513.117pt>
 File: clusteringCoefficient.png Graphic file (type png)
 
 <use clusteringCoefficient.png>
-Package pdftex.def Info: clusteringCoefficient.png used on input line 229.
+Package pdftex.def Info: clusteringCoefficient.png used on input line 228.
 (pdftex.def)             Requested size: 426.79135pt x 232.9127pt.
  [3 <./betweennessCentrality.png> <./closenessCentrality.png> <./clusteringCoef
 ficient.png>]
-Overfull \hbox (1.12614pt too wide) in paragraph at lines 240--252
+Overfull \hbox (1.12614pt too wide) in paragraph at lines 245--257
 [][] 
  []
 
-<vertexConnectivity.png, id=115, 940.2327pt x 513.117pt>
+<vertexConnectivity.png, id=119, 940.2327pt x 513.117pt>
 File: vertexConnectivity.png Graphic file (type png)
 
 <use vertexConnectivity.png>
-Package pdftex.def Info: vertexConnectivity.png used on input line 264.
+Package pdftex.def Info: vertexConnectivity.png used on input line 269.
 (pdftex.def)             Requested size: 256.07741pt x 139.74919pt.
 
-<vertexConnectivity1Removed.png, id=116, 940.2327pt x 513.117pt>
+<vertexConnectivity1Removed.png, id=120, 940.2327pt x 513.117pt>
 File: vertexConnectivity1Removed.png Graphic file (type png)
 
 <use vertexConnectivity1Removed.png>
-Package pdftex.def Info: vertexConnectivity1Removed.png used on input line 270.
+Package pdftex.def Info: vertexConnectivity1Removed.png used on input line 275.
 
 (pdftex.def)             Requested size: 256.07741pt x 139.74919pt.
 
-Overfull \hbox (85.36346pt too wide) in paragraph at lines 262--274
+Overfull \hbox (85.36346pt too wide) in paragraph at lines 267--279
  []$[]$$[]$ 
  []
 
 
-Overfull \hbox (1.12614pt too wide) in paragraph at lines 279--291
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (1.12614pt too wide) in paragraph at lines 284--296
 [][] 
  []
 
-[4 <./vertexConnectivity.png> <./vertexConnectivity1Removed.png>] (./main.bbl)
-[5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
+[4] (./main.bbl [5 <./vertexConnectivity.png> <./vertexConnectivity1Removed.png
+>]) [6]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 322.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 322.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 322.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 322.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 7C7A4C492F4D63B3575A08E8FFD0D9D8;538.
+(rerunfilecheck)             Checksum: FC9BD61DA8706B2CB0F4C2983ADF63C2;608.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 44801 strings out of 494953
- 1003040 string characters out of 6180976
- 1134855 words of memory out of 5000000
- 47281 multiletter control sequences out of 15000+600000
+ 44807 strings out of 494953
+ 1003120 string characters out of 6180976
+ 1134966 words of memory out of 5000000
+ 47284 multiletter control sequences out of 15000+600000
  50163 words of font info for 113 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,9n,92p,10375b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,9n,92p,10375b,859s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
@@ -2231,10 +2242,10 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb>
-Output written on main.pdf (5 pages, 848691 bytes).
+Output written on main.pdf (6 pages, 852353 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 170 compressed objects within 2 object streams
- 34 named destinations out of 1000 (max. 500000)
- 120 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 229 PDF objects out of 1000 (max. 8388607)
+ 182 compressed objects within 2 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 128 words of extra memory for PDF output out of 10000 (max. 10000000)
 

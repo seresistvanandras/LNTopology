@@ -132,6 +132,7 @@ keys]{cryptocode}
 
 \title{Topological Analysis of Bitcoin's Lightning Network }
 \author[1]{István András Seres}
+\author[1]{László Gulyás}
 \author[1]{Dániel A. Nagy}
 \author[1]{Péter Burcsi}
 \affil[1]{Department of Computer Algebra, Eötvös Loránd University}
@@ -165,7 +166,7 @@ Such a network can be built, because LN achieves payments to be made without any
 
 \textbf{Our contributions.} We empirically measure and describe LN's topology and show how robust it is against both random failures and targeted attacks. These findings suggest that how LN's topology could be ameliorated in order to achieve its true potential.
 \section{Lightning Network's Topology}
-\begin{wrapfigure}[20]{r}{5.5cm}
+\begin{wrapfigure}[22]{r}{5.5cm}
 	\begin{tabular}{ | l | c | }
 		\hline
 		Number of nodes & $2344$  \\ \hline
@@ -190,8 +191,6 @@ Such a network can be built, because LN achieves payments to be made without any
 LN can be described as a weighted graph $G=(V,E)$, where $V$ is the set of LN nodes and $E$ is the set of bidirectional payment channels between these nodes. We took a snapshot\footnote{https://graph.lndexplorer.com} of LN's topology on the 10th birthday of Bitcoin, 2019 January 3rd. In the following we are going to analyze this dataset.
 
 LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations (c-lightning, eclair and lnd) and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a parse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN is consisted of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
-
-However LN also exhibits somewhat scale-free properties as the s-metric suggests. S-metric was first introduced by Lun Li et al. in \cite{li2005towards} and defined as $s(G)=\sum_{(u,v)\in E}deg(u)deg(v)$. The closer to $1$  s-metric of $G$ is, the more scale-free the network. Diameter and radius of LN suggests that LN is a small world. Somewhat scale-freeness is also exhibited in the degree distribution of LN. Majority of nodes have very few payment channels, although there are a few hubs who have significantly more connections as it can be seen in Figure~\ref{fig:degreedist}.
 
 \begin{wrapfigure}{r}{0.6\textwidth}
 	\caption{LN's degree distribution}\label{fig:degreedist}
@@ -231,6 +230,12 @@ Small-world architectures, like LN, exhibit high clustering with short path leng
 \end{figure} 
 
  LN's local clustering coefficient distribution suggestively captures that LN is essentially comprised of a small central clique and a loosely connected periphery.
+ 
+\subsection{Scale-freeness of LN}
+
+LN might exhibit scale-free properties as the s-metric suggests. S-metric was first introduced by Lun Li et al. in \cite{li2005towards} and defined as $s(G)=\sum_{(u,v)\in E}deg(u)deg(v)$. The closer to $1$  s-metric of $G$ is, the more scale-free the network. Diameter and radius of LN suggests that LN is a small world. Somewhat scale-freeness is also exhibited in the degree distribution of LN. Majority of nodes have very few payment channels, although there are a few hubs who have significantly more connections as it can be seen in Figure~\ref{fig:degreedist}.
+
+The scale-freeness of LN is further justified also by applying the method introduced in \cite{clauset2009power}. The maximum-likelihood fitting asserted that the best fit for the empirical degree distribution is a power law function with exponent $\gamma=-2.1387$. The goodness-of-fit of the scale-free model was ascertained by the Kolmogorov-Smirnov statistic. We found that the $p$-value of the scale-free hypothesis is $p=0.8172$, which is accurate within $0.01$. Therefore the scale-free hypothesis is plausible for the empirical degree distribution of LN.
 
 \section{Robustness of LN}
 It is a major question in network science how robust a given network is. LN, just like Bitcoin, is a permissionless network, where nodes can join and leave arbitrarily at any point in time. Nodes can also create new payment channels or close them any time. Furthermore as new payments are made, capacities of payment channels are changing steadily. Despite the dynamic nature of LN, its topology's characteristics remain constant after all.
@@ -301,8 +306,15 @@ mandating newcomers to connect to not only hubs as current implementations do bu
 \section{Privacy}
 topological anomalies have privacy implications, low usage of tor, even tor can not help
 \section{Conclusion}
+In summary, a better understanding of the network topology is essential
+to improve the robustness of complex systems. We can enhance robustness
+by either designing network topologies that are simultaneously
+robust to both random failures and attacks, or by interventions that limit
+the spread of cascading failures.
+resilience depends on topology
 Shiny figures of LN's topology, like Figure~\ref{fig:lntopology}, convey only false sense of security and robustness.
 \section{Acknowledgements}
+We are grateful for the insightful comments and discussions to Chris Buckland, Olaoluwa Osuntokun and Alex Bosworth.
 
 \bibliographystyle{plain}
 \bibliography{sample}

@@ -1,9 +1,10 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Lightning Network's Topology}{}% 2
-\BOOKMARK [1][-]{section.3}{Robustness of LN}{}% 3
-\BOOKMARK [2][-]{subsection.3.1}{Random Failures}{section.3}% 4
-\BOOKMARK [2][-]{subsection.3.2}{Targeted attacks}{section.3}% 5
-\BOOKMARK [2][-]{subsection.3.3}{Improving LN's resilience against random failures and attacks}{section.3}% 6
-\BOOKMARK [1][-]{section.4}{Privacy}{}% 7
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 8
-\BOOKMARK [1][-]{section.6}{Acknowledgements}{}% 9
+\BOOKMARK [2][-]{subsection.2.1}{Scale-freeness of LN}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Robustness of LN}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Random Failures}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Targeted attacks}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.3}{Improving LN's resilience against random failures and attacks}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Privacy}{}% 8
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 9
+\BOOKMARK [1][-]{section.6}{Acknowledgements}{}% 10

@@ -5,6 +5,8 @@ import math
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.ticker as mticker
+import random
+import operator
 from matplotlib.ticker import MaxNLocator
 import collections
 import numpy as np
@@ -23,6 +25,11 @@ allWeights = []
 
 def main():
     G=defineGraph(readFile())
+    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+    # print "Degree sequence", degree_sequence
+    degreeCount = collections.Counter(degree_sequence)
+    deg, cnt = zip(*degreeCount.items())
+
     #basicStatistics(G)
     #degreeDistribution(G) #percentile graph needs to be added
     #weightsDistribution(G)
@@ -34,35 +41,154 @@ def main():
     #centrality(G)
     #clusteringCoefficient(G)
     #simpleStatistics(G)
-    fittingGamma(G)
+    #fittingGamma(deg, cnt)
+    #goodnessOfFit(deg, cnt)
+    #percolationThresholdPrediction(deg)
+    attackingBetweenness(G,deg, cnt)
+    #attackingHighDegrees(G, deg, cnt)
 
-def gammaF(G, Kmin):
+#Percolation Threshold: 565
+def attackingHighDegrees(G, deg, cnt):
+    highestDegrees = sorted(G.degree, key=lambda x: x[1], reverse=True)
+    print(highestDegrees)
+
+    originalGiantComponentSize = len(list(nx.connected_components(G))[0])
+    percolationThreshold = 0
+    for nodes in highestDegrees:
+        G.remove_node(nodes[0])
+        percolationThreshold+=1
+        print(percolationThreshold,len(list(nx.connected_components(G))[0]))
+        tooLarge = False
+        for x in range(len(list(nx.connected_components(G)))):
+            if tooLarge: break
+            if (len(list(nx.connected_components(G))[x]) > originalGiantComponentSize / 100):
+                tooLarge = True
+
+        if tooLarge==False:
+            print("Percolation Threshold: ", percolationThreshold)
+            break
+
+#Percolation Threshold:  561 (betweenness centrality)
+#Percolation Threshold: 1171 (closeness centrality)
+def attackingBetweenness(G, deg, cnt):
+    #betweennessC=nx.algorithms.centrality.closeness_centrality(G)
+    betweennessC=nx.algorithms.centrality.betweenness_centrality(G, k=300, normalized=True) #higher k yields better approx of betweenness
+
+    PP=[] #probability that a random node belongs to the giant component
+    p=[] #fraction of the original giant component
+    sortedB = sorted(betweennessC.items(), key=operator.itemgetter(1), reverse=True)
+    originalGiantComponentSize = len(list(nx.connected_components(G))[0])
+    percolationThreshold = 0
+    for nodes in sortedB:
+        try:
+            G.remove_node(nodes[0])
+        except nx.exception.NetworkXError:
+            continue
+        G.remove_nodes_from(list(nx.isolates(G)))
+        percolationThreshold+=1
+        tooLarge = False
+        maximalComponent = 0
+        for x in range(len(list(nx.connected_components(G)))):
+            if len(list(nx.connected_components(G))[x])>maximalComponent:
+                maximalComponent = len(list(nx.connected_components(G))[x])
+        if (maximalComponent > originalGiantComponentSize / 100):
+            print(percolationThreshold, maximalComponent, G.order(), G.size())
+            p.append(percolationThreshold/originalGiantComponentSize)
+            PP.append(maximalComponent/originalGiantComponentSize)
+            tooLarge = True
+
+        if tooLarge==False:
+            print("Percolation Threshold: ", percolationThreshold, percolationThreshold/originalGiantComponentSize)
+            break
+
+    plt.plot(p, PP, '.', color='green')
+    plt.title("Robustness of Lightning Network")
+    plt.ylabel("PP")
+    plt.xlabel("p")
+
+
+
+def percolationThresholdPrediction(deg):
+    gamma = 2.1387317708757214
+    kmin=np.amin(deg)
+    kmax=np.amax(deg)
+    fc = 1- 1/(((gamma-2)*pow(kmin,gamma-2)*pow(kmax,3-gamma)/(3-gamma))-1)
+    print(kmin, kmax, fc)
+    print("Estimated network size: ",pow((kmax/kmin),gamma-1))
+    print("Avalanche exponent: ",gamma/(gamma-1))
+    print("First moment: ",moments(gamma,kmin,1))
+    print("Fc error: ",1-1/moments(gamma,kmin,1))
+
+    #K=(2-gamma)*(pow(kmax,3-gamma)-pow(kmin,3-gamma))/((3-gamma)*(pow(kmax,2-gamma)-pow(kmin,2-gamma)))
+    K = abs((2-gamma)/(3 - gamma)) * (pow(kmax, 3 - gamma)* pow(kmin, gamma - 2))
+    Fc=1-1/(K-1)
+    print("Fc for scale-free: ", Fc)
+
+def moments(gamma, xmin, m):
+    return (gamma-1)*pow(xmin,m)/(gamma-1-m)
+
+def generateSyntheticData(ntotal, nmin, gamma, Kmin, Kmax, powerLawProbs):
+    syntheticDegrees = []
+    for x in range(ntotal):
+        rand=random.randint(1,ntotal)
+        if rand < ntotal-nmin:
+            syntheticDegrees.append(random.randint(1, Kmin - 1))
+        else:
+            syntheticDegrees.append(np.random.choice(np.arange(Kmin, 2000+1), p=powerLawProbs))
+
+    syntheticDegreeCount = collections.Counter(syntheticDegrees)
+    syntDeg, syntCnt = zip(*syntheticDegreeCount.items())
+
+    return syntDeg, syntCnt
+
+def goodnessOfFit(deg, cnt):
+    #calculated p-value: 0.8172
+    (Kmin, gamma, nmin, baseDist) = fittingGamma(deg, cnt)
+    ntotal = np.sum(cnt)
+
+    powerLawProbs = generatePowerLawDist(gamma, Kmin, np.amax(deg))
+    counter = 0
+    # we chose 2500 iterations to have 2 digits precision for the p-value
+    for i in range(2500):
+        syntDeg, syntCnt = generateSyntheticData(ntotal, nmin, gamma, Kmin, np.amax(deg), powerLawProbs)
+        optK, approxGamma, nmin, minDist=fittingGamma(syntDeg,syntCnt)
+        print(i, approxGamma, minDist)
+        if(baseDist < minDist):
+            counter+=1
+    print("p-value:", counter/2500)
+
+def generatePowerLawDist(gamma, Kmin, maxDeg):
+    probI = []
+    for q in range(Kmin, 2000, 1):
+        probI.append(pow(q, -gamma) / spcl.zeta(gamma, Kmin))
+    probI.append(1-np.sum(probI))
+    return probI
+
+def gammaF(deg, cnt, Kmin):
     sum = 0
     counter = 0
-    for x in G.nodes():
-        if(G.degree(x)>=Kmin):
-            sum += np.log(G.degree(x) / (Kmin - 0.5))
-            counter+=1
-    gamma = 1 + counter * (1 / sum)
-    return gamma
+    index = 0
+    for x in deg:
+        if(x>=Kmin):
+            sum += cnt[counter]*np.log(x / (Kmin - 0.5))
+            index+=cnt[counter]
+        counter+=1
+    gamma = 1 + index * (1 / sum)
+    return (gamma, index)
 
 #degreeCentrality
-def fittingGamma(G):
-    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
-    # print "Degree sequence", degree_sequence
-    degreeCount = collections.Counter(degree_sequence)
-    deg, cnt = zip(*degreeCount.items())
-
+#2.1387317708757214
+def fittingGamma(deg, cnt):
     minmaxD = 100
     optimalK = 0
+    bestgamma = 0
+    nmin = 0
     maxD = []
     for Kmin in deg:
-        gamma = gammaF(G,Kmin)
+        gamma, ind = gammaF(deg, cnt, Kmin)
 
-        maxDistance = 0
         cdf = [] #cumulative distribution func
         cdfOrdered = {}
-
         for y in deg:
             if(spcl.zeta(gamma,Kmin)!=0.0):
                 CDF = 1-(spcl.zeta(gamma,y))/(spcl.zeta(gamma,Kmin))
@@ -72,37 +198,47 @@ def fittingGamma(G):
             cdfOrdered[y] = CDF
 
         #Kolmogorov-Smirnov test
+        maxDistance = 0
         for z in deg:
             if (z >= Kmin):
-                if abs(cdfOrdered[z]-(empiricalCDF(deg,cnt,z)/G.order()))>maxDistance:
-                    maxDistance = abs(cdfOrdered[z]-(z/G.order()))
+                if abs(cdfOrdered[z]-empiricalCDF(deg,cnt, Kmin,z))>maxDistance:
+                    maxDistance = abs(cdfOrdered[z]-empiricalCDF(deg,cnt,Kmin,z))
         if maxDistance < minmaxD:
             minmaxD = maxDistance
             optimalK = Kmin
+            nmin = ind
+            bestgamma = gamma
         maxD.append(maxDistance)
 
-    deviation=1/math.sqrt(G.order()*((mp.zeta(gamma,optimalK,2)/spcl.zeta(gamma,optimalK))-math.pow((mp.zeta(gamma,optimalK,1)/spcl.zeta(gamma,optimalK)),2)))
+    #deviation=1/math.sqrt(np.sum(cnt)*((mp.zeta(gamma,optimalK,2)/spcl.zeta(gamma,optimalK))-math.pow((mp.zeta(gamma,optimalK,1)/spcl.zeta(gamma,optimalK)),2)))
 
-    print(optimalK)
-    print("Approximated exponent in the power-law distribution: ",gammaF(G, optimalK))
-    print("Deviation of the approximation: ", deviation)
-    plt.plot(np.array(deg), np.array(maxD), '.', color='green')
+    #print(optimalK)
+    #print("Approximated exponent in the power-law distribution: ",gammaF(deg, cnt, optimalK))
+    #print("Deviation of the approximation: ", deviation)
+    #print("Max distance between CDF and empirical data: ", minmaxD)
+    #plt.plot(np.array(deg), np.array(maxD), '.', color='green')
+    #plt.title("Kolmogorov-Smirnov test")
+    #plt.ylabel("D")
+    #plt.xlabel("K")
+    #plt.yscale("log")
 
-def empiricalCDF(deg, cnt, z):
+    return (optimalK, bestgamma, nmin, minmaxD)
+
+def empiricalCDF(deg, cnt, Kmin, z):
     sum = 0
     counter = 0
+    total = 0
     for w in deg:
-        if (w<=z):
-            sum+=cnt[counter]
+        if (w>=Kmin):
+            total+=cnt[counter]
+            if (w<=z):
+                sum+=cnt[counter]
         counter+=1
-    return sum
-
-
+    return sum/total
 
 def simpleStatistics(G):
     a=[2234, 2117, 1493, 2196, 2160, 1767, 1908, 1796, 685, 650, 1934, 2234, 1362, 1872, 1731, 493, 459, 1060, 486, 471, 1546, 1439, 861, 1766, 1604, 910, 2229, 878, 938, 819]
     print(np.mean(a)/G.order())
-
 
 def basicStatistics(G):
     print("Number of LN nodes : ", G.order())
@@ -305,7 +441,6 @@ def weightsDistribution(G):
 
 def degreeDistribution(G):
     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
-    print(degree_sequence)
     # print "Degree sequence", degree_sequence
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
@@ -314,24 +449,25 @@ def degreeDistribution(G):
     pk=[]
     for x in cnt:
         pk.append(x/G.order())
-    print(pk)
-    plt.bar(deg, pk, width=0.80, color='b')
-    plt.bar(deg, powerList(cnt,-2.7), color='r', width=0.80)
 
-    plt.title("Degree Histogram")
+    plt.plot(np.array(deg), np.array(pk),  '.', color='red', label = 'Empyrical degree distribution')
+    plt.plot(np.array(deg), np.array(powerList(deg,-2.1387317708757214)), '.', color='green', label='Scale-free approximation') #1.4425779698352683, -2.2495735
+
+    plt.title("Degree Distribution")
     plt.ylabel("Count")
     plt.xlabel("Degree")
     ax.set_xticks([d + 0.4 for d in deg])
     ax.set_xticklabels(deg)
+    leg = ax.legend();
 
 
     plt.yscale("log")
     plt.xscale("log")
-    n = 20
-    invisible = [202,213,226,291,323,407,415,267,269] ##disturbing degrees
-    for index, label in enumerate(ax.xaxis.get_ticklabels()):
-        if deg[index] % n != 0 and deg[index]<200 or (deg[index] in invisible):
-            label.set_visible(False)
+    #n = 20
+    #invisible = [202,213,226,291,323,407,415,267,269] ##disturbing degrees
+    #for index, label in enumerate(ax.xaxis.get_ticklabels()):
+    #    if deg[index] % n != 0 and deg[index]<200 or (deg[index] in invisible):
+    #        label.set_visible(False)
     plt.show()
 
 def shortestPaths(G):
