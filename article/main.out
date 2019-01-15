@@ -1,6 +1,6 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Lightning Network's Topology}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Scale-freeness of LN}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Analysis of LN's degree distribution}{section.2}% 3
 \BOOKMARK [1][-]{section.3}{Robustness of LN}{}% 4
 \BOOKMARK [2][-]{subsection.3.1}{Random Failures}{section.3}% 5
 \BOOKMARK [2][-]{subsection.3.2}{Targeted attacks}{section.3}% 6

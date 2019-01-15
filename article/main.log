@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  14 JAN 2019 22:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  15 JAN 2019 17:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2122,11 +2122,12 @@ Overfull \hbox (46.33644pt too wide) in paragraph at lines 170--188
 Package wrapfig Warning: Collision between wrapping environments on input line 
 195.
 
-<degreehistogramlogscale.png, id=68, 940.2327pt x 513.117pt>
-File: degreehistogramlogscale.png Graphic file (type png)
+<degreehistogramloglogscale.png, id=71, 940.2327pt x 513.117pt>
+File: degreehistogramloglogscale.png Graphic file (type png)
 
-<use degreehistogramlogscale.png>
-Package pdftex.def Info: degreehistogramlogscale.png used on input line 198.
+<use degreehistogramloglogscale.png>
+Package pdftex.def Info: degreehistogramloglogscale.png used on input line 198.
+
 (pdftex.def)             Requested size: 362.77525pt x 197.97736pt.
 
 Overfull \hbox (106.69785pt too wide) in paragraph at lines 198--199
@@ -2142,15 +2143,15 @@ Underfull \hbox (badness 1365) in paragraph at lines 204--205
 \T1/aer/m/n/10 can eas-ily be routed with a few
  []
 
-[2 <./degreehistogramlogscale.png>]
-<betweennessCentrality.png, id=90, 462.528pt x 346.896pt>
+[2 <./degreehistogramloglogscale.png>]
+<betweennessCentrality.png, id=94, 462.528pt x 346.896pt>
 File: betweennessCentrality.png Graphic file (type png)
 
 <use betweennessCentrality.png>
 Package pdftex.def Info: betweennessCentrality.png used on input line 212.
 (pdftex.def)             Requested size: 256.07741pt x 192.06905pt.
 
-<closenessCentrality.png, id=91, 940.2327pt x 513.117pt>
+<closenessCentrality.png, id=95, 940.2327pt x 513.117pt>
 File: closenessCentrality.png Graphic file (type png)
 
 <use closenessCentrality.png>
@@ -2161,7 +2162,7 @@ Overfull \hbox (85.36346pt too wide) in paragraph at lines 210--222
  []$[]$$[]$ 
  []
 
-<clusteringCoefficient.png, id=93, 940.2327pt x 513.117pt>
+<clusteringCoefficient.png, id=97, 940.2327pt x 513.117pt>
 File: clusteringCoefficient.png Graphic file (type png)
 
 <use clusteringCoefficient.png>
@@ -2173,14 +2174,14 @@ Overfull \hbox (1.12614pt too wide) in paragraph at lines 247--259
 [][] 
  []
 
-[4] <vertexConnectivity.png, id=126, 940.2327pt x 513.117pt>
+[4] <vertexConnectivity.png, id=132, 940.2327pt x 513.117pt>
 File: vertexConnectivity.png Graphic file (type png)
 
 <use vertexConnectivity.png>
 Package pdftex.def Info: vertexConnectivity.png used on input line 273.
 (pdftex.def)             Requested size: 256.07741pt x 139.74919pt.
 
-<vertexConnectivity1Removed.png, id=127, 940.2327pt x 513.117pt>
+<vertexConnectivity1Removed.png, id=133, 940.2327pt x 513.117pt>
 File: vertexConnectivity1Removed.png Graphic file (type png)
 
 <use vertexConnectivity1Removed.png>
@@ -2201,7 +2202,7 @@ Overfull \hbox (1.12614pt too wide) in paragraph at lines 289--303
 Package wrapfig Warning: Collision between wrapping environments on input line 
 309.
 
-<attackEffectPathLength.png, id=134, 940.2327pt x 513.117pt>
+<attackEffectPathLength.png, id=140, 940.2327pt x 513.117pt>
 File: attackEffectPathLength.png Graphic file (type png)
 
 <use attackEffectPathLength.png>
@@ -2213,7 +2214,7 @@ Package wrapfig Warning: Stationary wrapfigure forced to float on input line 31
 7.
 
 [5 <./vertexConnectivity.png> <./vertexConnectivity1Removed.png>]
-<randomHighBetweenness.png, id=147, 940.2327pt x 513.117pt>
+<randomHighBetweenness.png, id=153, 940.2327pt x 513.117pt>
 File: randomHighBetweenness.png Graphic file (type png)
 
 <use randomHighBetweenness.png>
@@ -2242,16 +2243,16 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 344.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 344.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 344.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: C5A40022396E9BDA683A13F8C16EE68B;565.
+(rerunfilecheck)             Checksum: DDF2CF13EA512CE2C70F138A882854B9;581.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 44822 strings out of 494953
- 1003515 string characters out of 6180976
- 1134280 words of memory out of 5000000
+ 44825 strings out of 494953
+ 1003563 string characters out of 6180976
+ 1135280 words of memory out of 5000000
  47294 multiletter control sequences out of 15000+600000
  50163 words of font info for 113 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -2276,10 +2277,10 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb>
-Output written on main.pdf (7 pages, 955602 bytes).
+Output written on main.pdf (7 pages, 957071 bytes).
 PDF statistics:
- 243 PDF objects out of 1000 (max. 8388607)
- 190 compressed objects within 2 object streams
- 40 named destinations out of 1000 (max. 500000)
+ 250 PDF objects out of 1000 (max. 8388607)
+ 197 compressed objects within 2 object streams
+ 43 named destinations out of 1000 (max. 500000)
  130 words of extra memory for PDF output out of 10000 (max. 10000000)
 

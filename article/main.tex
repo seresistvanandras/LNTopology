@@ -140,9 +140,9 @@ keys]{cryptocode}
 \maketitle
 
 \begin{abstract}
-Bitcoin's Lightning Network (LN) is a scalability solution for Bitcoin, which allows transactions to be issued with negligible fees and settle transactions instantly at scale. In order to use LN, funds need to be locked in payment channels on the Bitcoin blockchain (Layer-1), that one may use them in LN (Layer-2). LN is comprised of many payment channels forming a payment channel network. LN's promise is that a few payment channels already enable anyone to efficiently, securely and privately route payments across the whole network. In this paper we quantify the structural properties of LN and argue that LN's current topological properties could have been ameliorated in order to enable LN to reach its true potential.  
+Bitcoin's Lightning Network (LN) is a scalability solution for Bitcoin allowing transactions to be issued with negligible fees and settled instantly at scale. In order to use LN, funds need to be locked in payment channels on the Bitcoin blockchain (Layer-1) for subsequent use in LN (Layer-2). LN is comprised of many payment channels forming a payment channel network. LN's promise is that relatively few payment channels already enable anyone to efficiently, securely and privately route payments across the whole network. In this paper, we quantify the structural properties of LN and argue that LN's current topological properties can be ameliorated in order to improve the security of LN, enabling it to reach its true potential.  
 \end{abstract}
-\keywords{Bitcoin, Lightning Network, Network Topology, Payment Channel Network}
+\keywords{Bitcoin, Lightning Network, Network Security, Network Topology, Payment Channel Network, Network Robustness}
 
 \section{Introduction}
 Recently the Bitcoin \cite{nakamoto2008bitcoin} network celebrated its 10th anniversary. During these years Bitcoin gained a huge popularity due to its publicly verifiable, decentralized, permissionless and censorship-resistant nature. This tremendous popularity and increasing interest in Bitcoin pushed its network's throughput to its limits. Without further advancements, the Bitcoin network can only settle $7$ transactions per second (tps), while mainstream centralized payment providers such as Visa and Mastercard can process approximately \num[group-separator={,}]{40000} tps in peak hours. Moreover one might need to pay large transaction fees on the Bitcoin network, while also need to wait 6 new blocks to be published in order to be certain enough that the transaction is included in the blockchain.
@@ -190,12 +190,12 @@ Such a network can be built, because LN achieves payments to be made without any
 
 LN can be described as a weighted graph $G=(V,E)$, where $V$ is the set of LN nodes and $E$ is the set of bidirectional payment channels between these nodes. We took a snapshot\footnote{https://graph.lndexplorer.com} of LN's topology on the 10th birthday of Bitcoin, 2019 January 3rd. In the following we are going to analyze this dataset.
 
-LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations (c-lightning, eclair and lnd) and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a parse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN is consisted of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
+LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations (c-lightning\footnote{https://github.com/ElementsProject/lightning/}, eclair\footnote{https://github.com/ACINQ/eclair} and lnd\footnote{https://github.com/lightningnetwork/lnd}) and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a parse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN is consisted of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
 
 \begin{wrapfigure}{r}{0.6\textwidth}
 	\caption{LN's degree distribution}\label{fig:degreedist}
 	\begin{center}
-		\includegraphics[width=0.85\textwidth]{degreehistogramlogscale.png}
+		\includegraphics[width=0.85\textwidth]{degreehistogramloglogscale.png}
 	\end{center}	
 \end{wrapfigure}
 
@@ -231,7 +231,7 @@ Small-world architectures, like LN, exhibit high clustering with short path leng
 
  LN's local clustering coefficient distribution suggestively captures that LN is essentially comprised of a small central clique and a loosely connected periphery.
  
-\subsection{Scale-freeness of LN}
+\subsection{Analysis of LN's degree distribution}
 
 LN might exhibit scale-free properties as the s-metric suggests. S-metric was first introduced by Lun Li et al. in \cite{li2005towards} and defined as $s(G)=\sum_{(u,v)\in E}deg(u)deg(v)$. The closer to $1$  s-metric of $G$ is, the more scale-free the network. Diameter and radius of LN suggests that LN is a small world. Somewhat scale-freeness is also exhibited in the degree distribution of LN. Majority of nodes have very few payment channels, although there are a few hubs who have significantly more connections as it can be seen in Figure~\ref{fig:degreedist}.
 
@@ -333,8 +333,8 @@ mandating newcomers to connect to not only hubs as current implementations do bu
 
 \section{Conclusion}
 In summary, a better understanding of the network topology is essential
-to improve the robustness of complex systems, like LN. Network resilience depends on topology. LN is well approximated by the scale-free model and also its attack tolerance properties are similar to that of scale-free networks; namely, LN is robust against random failures, however it is quite vulnerable against targeted attacks. 
-Shiny figures of LN's topology, like Figure~\ref{fig:lntopology}, convey only false sense of security and robustness, therefore to provide robust Layer 2 solutions for blockchains, the community needs to aim at building resilient network topologies.
+for improving the robustness of complex systems, like LN. Networks' resilience depends on their topology. LN is well approximated by the scale-free model and also its attack tolerance properties are similar to those of scale-free networks; in particular, while LN is robust against random failures, it is quite vulnerable in the face of targeted attacks. 
+High-level depictions of LN's topology, like Figure~\ref{fig:lntopology}, convey a false image of security and robustness. As we have demonstrated, LN is structurally weak against rational adversaries. Thus, to provide robust Layer 2 solutions for blockchains, such as LN and Raiden, the community needs to aim at building resilient network topologies.
 \section{Acknowledgements}
 We are grateful for the insightful comments and discussions to Chris Buckland, Olaoluwa Osuntokun and Alex Bosworth.
 

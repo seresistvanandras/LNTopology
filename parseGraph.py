@@ -47,6 +47,25 @@ def main():
     #attackingBetweenness(G,deg, cnt)
     #attackingHighDegrees(G)
     #drawHistogram(G)
+    improvingRobustness(G)
+
+def improvingRobustness(G):
+    originalGiantComponentSize = len(list(nx.connected_components(G))[0])
+    originalRobustness = 0
+    #G.remove_nodes_from(list(nx.connected_components(G))[1])
+    percolationThreshold = 0
+    for x in range(1000):
+        highestDegrees = sorted(G.degree, key=lambda x: x[1], reverse=True)
+        G.remove_node(next(iter(highestDegrees))[0])
+        percolationThreshold += 1
+        largest_cc = max(nx.connected_components(G), key=len)
+        originalRobustness+=(len(largest_cc)/(originalGiantComponentSize*originalGiantComponentSize))
+        print(x, originalRobustness)
+        if (len(largest_cc) < originalGiantComponentSize / 100):
+            print("Percolation Threshold: ", percolationThreshold, percolationThreshold / originalGiantComponentSize)
+            break
+
+
 
 def drawHistogram(G): #attack effect on avg shortest path length
     originalGiantComponentSize = len(list(nx.connected_components(G))[0])
@@ -291,7 +310,7 @@ def basicStatistics(G):
     #print("LN rich-club coefficient: ", nx.algorithms.richclub.rich_club_coefficient(G))
     #print("LN rich-club normalized coefficient: ", nx.algorithms.richclub.rich_club_coefficient(G, normalized=True))
     #print(list(nx.connected_components(G))[1])
-    G.remove_nodes_from(list(nx.connected_components(G))[1]) #there is a small second component
+    #G.remove_nodes_from(list(nx.connected_components(G))[1]) #there is a small second component
     #print("LN diameter: ", nx.algorithms.distance_measures.diameter(G)) #6
     #print("LN radius", nx.algorithms.distance_measures.radius(G)) #3
     #print("LN Wiener index", nx.algorithms.wiener_index(G)) #7686159.0
@@ -303,6 +322,7 @@ def basicStatistics(G):
     print("LN's transitivity: ", nx.algorithms.cluster.transitivity(G))
     #print("Average shortest paths: ",nx.algorithms.shortest_paths.generic.average_shortest_path_length(G)) # 2.806222412074612
     #print("LN's largest clique size: ", nx.algorithms.approximation.clique.max_clique(G))
+    print("Adjacency spectrum of LN: ", nx.linalg.spectrum.adjacency_spectrum(G))
     #only 81 onion node :(
 
 def clusteringCoefficient(G):
@@ -554,7 +574,7 @@ def defineGraph(data) -> object:
 
 ##https://graph.lndexplorer.com/api/graph
 def readFile() -> object:
-    with open('graph.json') as f:
+    with open('graph20190115.json') as f:
         data = json.load(f)
     return data['edges']
 
