@@ -310,7 +310,7 @@ def basicStatistics(G):
     #print("LN rich-club coefficient: ", nx.algorithms.richclub.rich_club_coefficient(G))
     #print("LN rich-club normalized coefficient: ", nx.algorithms.richclub.rich_club_coefficient(G, normalized=True))
     #print(list(nx.connected_components(G))[1])
-    #G.remove_nodes_from(list(nx.connected_components(G))[1]) #there is a small second component
+    G.remove_nodes_from(list(nx.connected_components(G))[1]) #there is a small second component
     #print("LN diameter: ", nx.algorithms.distance_measures.diameter(G)) #6
     #print("LN radius", nx.algorithms.distance_measures.radius(G)) #3
     #print("LN Wiener index", nx.algorithms.wiener_index(G)) #7686159.0
@@ -574,7 +574,7 @@ def defineGraph(data) -> object:
 
 ##https://graph.lndexplorer.com/api/graph
 def readFile() -> object:
-    with open('graph20190115.json') as f:
+    with open('graph.json') as f:
         data = json.load(f)
     return data['edges']
 

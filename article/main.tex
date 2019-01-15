@@ -164,9 +164,9 @@ Bidirectional payment channels can be formed on-chain using a construction calle
 Using these payment channels as building blocks one might establish a payment channel network, where it is not necessary to have direct payment channels between nodes to transact with each other, but they could simply route their payments through other nodes' payment channels.
 Such a network can be built, because LN achieves payments to be made without any counterparty risk, however efficient and privacy-preserving payment routing remains a challenging algorithmic task \cite{roos2017settling}.    
 
-\textbf{Our contributions.} We empirically measure and describe LN's topology and show how robust it is against both random failures and targeted attacks. These findings suggest that how LN's topology could be ameliorated in order to achieve its true potential.
+\textbf{Our contributions.} We empirically measure\footnote{https://github.com/seresistvanandras/LNTopology} and describe LN's topology and show how robust it is against both random failures and targeted attacks. These findings suggest that LN's topology can be ameliorated in order to achieve its true potential.
 \section{Lightning Network's Topology}
-\begin{wrapfigure}[22]{r}{5.5cm}
+\begin{wrapfigure}[20]{r}{5.5cm}
 	\begin{tabular}{ | l | c | }
 		\hline
 		Number of nodes & $2344$  \\ \hline
@@ -188,7 +188,9 @@ Such a network can be built, because LN achieves payments to be made without any
 	\caption{LN at a glance: basic properties of the LN graph.}\label{fig:properties}
 \end{wrapfigure}
 
-LN can be described as a weighted graph $G=(V,E)$, where $V$ is the set of LN nodes and $E$ is the set of bidirectional payment channels between these nodes. We took a snapshot\footnote{https://graph.lndexplorer.com} of LN's topology on the 10th birthday of Bitcoin, 2019 January 3rd. In the following we are going to analyze this dataset.
+LN can be described as a weighted graph $G=(V,E)$, where $V$ is the set of LN nodes and $E$ is the set of bidirectional payment channels between these nodes. We took a snapshot\footnote{https://graph.lndexplorer.com} of LN's topology on the 10th birthday of Bitcoin, 2019 January 3rd. In the following we are going to analyze this dataset. Although the number of nodes and payment channels are permanently changing in LN, we observed through several snapshots that the main topological characteristics (density, average degree, transitivity, nature of degree distribution) remained unchanged. We leave it for future work to analyze the dynamic properties of LN.
+
+
 
 LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations (c-lightning\footnote{https://github.com/ElementsProject/lightning/}, eclair\footnote{https://github.com/ACINQ/eclair} and lnd\footnote{https://github.com/lightningnetwork/lnd}) and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a parse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN is consisted of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
 
@@ -326,10 +328,11 @@ Node outage not only affects robustness and connectivity properties, but also af
 \end{figure} 
 
 \subsection{Improving LN's resilience against random failures and attacks}
-Designing networks which are robust to random failures and targeted attacks appear to be a conflicting desire \cite{barabasi2016network}. For instance a star graph, the simplest hub and spoke network, is resilient to random failures. The removal of any set of spokes does not hurt the connectedness of the main component. However it can not withstand a targeted attack against its central node, since it would leave behind isolated spokes. 
+Designing networks which are robust to random failures and targeted attacks appear to be a conflicting desire \cite{barabasi2016network}. For instance a star graph, the simplest hub and spoke network, is resilient to random failures. The removal of any set of spokes does not hurt the connectedness of the main component. However it can not withstand a targeted attack against its central node, since it would leave behind isolated spokes. Furthermore when one attempts increasing robustness of a network, they do desire not to decrease the connectivity of nodes.
 
-Nonetheless, we could still enhance the network's attack tolerance by connecting its peripheral nodes \cite{barabasi2016network} and
-mandating newcomers to connect to not only hubs as current implementations do but also to at least a few random nodes. This would largely increase robustness of LN even against targeted attacks.
+A similar optimization strategy of robustness and connectivity \cite{shargel2003optimization} could be applied to LN as well. We leave it for future work to empirically assess the robustness and connectivity gains if strategy of \cite{shargel2003optimization} would be implemented in LN client implementations. 
+
+Nonetheless, we can still enhance the network's attack tolerance by connecting its peripheral nodes \cite{barabasi2016network}. This could be achieved by LN client implementations by implicitly mandating newcomers to connect to not only hubs, as current implementations do, but also to at least a few random nodes. This would largely increase robustness of LN even against targeted attacks. 
 
 \section{Conclusion}
 In summary, a better understanding of the network topology is essential
