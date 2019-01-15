@@ -16,6 +16,14 @@ Lun Li, David Alderson, John~C Doyle, and Walter Willinger.
   implications.
 \newblock {\em Internet Mathematics}, 2(4):431--523, 2005.
 
+\bibitem{lin2017assessing}
+Yuan Lin, Wei Chen, and Zhongzhi Zhang.
+\newblock Assessing percolation threshold based on high-order non-backtracking
+  matrices.
+\newblock In {\em Proceedings of the 26th International Conference on World
+  Wide Web}, pages 223--232. International World Wide Web Conferences Steering
+  Committee, 2017.
+
 \bibitem{nakamoto2008bitcoin}
 Satoshi Nakamoto.
 \newblock Bitcoin: A peer-to-peer electronic cash system.

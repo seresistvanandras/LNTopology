@@ -30,7 +30,7 @@ def main():
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
 
-    #basicStatistics(G)
+    basicStatistics(G)
     #degreeDistribution(G) #percentile graph needs to be added
     #weightsDistribution(G)
     #shortestPaths(G)
@@ -44,68 +44,105 @@ def main():
     #fittingGamma(deg, cnt)
     #goodnessOfFit(deg, cnt)
     #percolationThresholdPrediction(deg)
-    attackingBetweenness(G,deg, cnt)
-    #attackingHighDegrees(G, deg, cnt)
+    #attackingBetweenness(G,deg, cnt)
+    #attackingHighDegrees(G)
+    #drawHistogram(G)
 
-#Percolation Threshold: 565
-def attackingHighDegrees(G, deg, cnt):
-    highestDegrees = sorted(G.degree, key=lambda x: x[1], reverse=True)
-    print(highestDegrees)
-
+def drawHistogram(G): #attack effect on avg shortest path length
     originalGiantComponentSize = len(list(nx.connected_components(G))[0])
-    percolationThreshold = 0
-    for nodes in highestDegrees:
-        G.remove_node(nodes[0])
-        percolationThreshold+=1
-        print(percolationThreshold,len(list(nx.connected_components(G))[0]))
-        tooLarge = False
-        for x in range(len(list(nx.connected_components(G)))):
-            if tooLarge: break
-            if (len(list(nx.connected_components(G))[x]) > originalGiantComponentSize / 100):
-                tooLarge = True
+    a=[2.806222412074612, 2.871217085442275, 2.91560045459128, 2.9437603442568685, 2.9740025229103972, 3.0045886322304565, 3.037044687225701, 3.0553851019952716, 3.075570909398242, 3.0890175949054375, 3.1157498785629887, 3.131813039281431, 3.146865049134942, 3.163353070623199, 3.1801390239729423, 3.1856303960443033, 3.2041163947454585, 3.2125176424347455, 3.226031083245262, 3.2354480642086663, 3.2458709321869597, 3.2528784561124127, 3.2657448307356463, 3.275644221485353, 3.2882485866327467, 3.3025002028102657, 3.3139604454666687, 3.325104794319505, 3.3376269239216745, 3.3465795761157207, 3.354999742940903]
+    b = list(range(0, 31))
+    c=[2.806222412074612, 2.806840895554021, 2.8062060695075983, 2.806240810145709, 2.8054799649474504, 2.8050401865595025, 2.805183957841351, 2.80548635115336, 2.8071260429750997, 2.8071066774929436, 2.806607488708337, 2.806631682697912, 2.8063720821020826, 2.8065669709319105, 2.8056500936474484, 2.806809639127011, 2.806961234777178, 2.806665944865557, 2.806500923697486, 2.8066547251933036, 2.8064298690301666, 2.8060923181460953, 2.8060408625703954, 2.8057784569538504, 2.8057073212363317, 2.8056447519017835, 2.805837125196155, 2.805820866731267, 2.8060240140210753, 2.8058008903104583, 2.8054164087648368]
+    plt.plot(b, a, '.', color='red', markersize=12, label="HDR")
+    plt.plot(b,c,'.',color='blue',markersize=12, label="Random")
+    plt.title("Attack effect on path length")
+    plt.ylabel("Average shortest path length")
+    plt.xlabel("Number of removed nodes")
 
-        if tooLarge==False:
-            print("Percolation Threshold: ", percolationThreshold)
+    plt.legend(loc="upper left")
+
+    plt.show()
+
+#Percolation Threshold: 381 0.1627509611277232
+#Percolation Threshold: 2258 0.964545066211021
+#Percolation Threshold: 330 0.14096539940196498
+def attackingHighDegrees(G):
+    originalGiantComponentSize = len(list(nx.connected_components(G))[0])
+    G.remove_nodes_from(list(nx.connected_components(G))[1])
+    percolationThreshold = 0
+    PP = []  # probability that a random node belongs to the giant component
+    p = []  # percolation threshold
+    diameter = []
+    for x in range(30):
+        highestDegrees = sorted(G.degree, key=lambda x: x[1], reverse=True)
+        G.remove_node(next(iter(highestDegrees))[0])
+        percolationThreshold+=1
+        largest_cc = max(nx.connected_components(G), key=len)
+        PP.append(len(largest_cc) / originalGiantComponentSize)
+        p.append(percolationThreshold)
+        shortpahts=nx.algorithms.shortest_paths.generic.average_shortest_path_length(G.subgraph(largest_cc))
+        diameter.append(shortpahts)
+        print(percolationThreshold, len(largest_cc), shortpahts)
+        if (len(largest_cc) < originalGiantComponentSize / 100):
+            print("Percolation Threshold: ", percolationThreshold, percolationThreshold/originalGiantComponentSize)
             break
+    print(diameter)
+
+    return (p,PP, diameter)
+
+
 
 #Percolation Threshold:  561 (betweenness centrality)
 #Percolation Threshold: 1171 (closeness centrality)
+#Percolation Threshold:  144 0.061512174284493806 (betweenness)
 def attackingBetweenness(G, deg, cnt):
+    gor = G.copy()
+    GorHighDegreeAttack = G.copy()
+    (pHigh, PPHigh) = attackingHighDegrees(GorHighDegreeAttack)
+    (pRandom, PPrandom) = randomVertexConnectivity(gor)
     #betweennessC=nx.algorithms.centrality.closeness_centrality(G)
-    betweennessC=nx.algorithms.centrality.betweenness_centrality(G, k=300, normalized=True) #higher k yields better approx of betweenness
+    betweennessC = nx.algorithms.centrality.betweenness_centrality(G, k=300, normalized=True) #higher k yields better approx of betweenness
 
     PP=[] #probability that a random node belongs to the giant component
-    p=[] #fraction of the original giant component
+    p=[] #percolation threshold
     sortedB = sorted(betweennessC.items(), key=operator.itemgetter(1), reverse=True)
     originalGiantComponentSize = len(list(nx.connected_components(G))[0])
     percolationThreshold = 0
-    for nodes in sortedB:
+    for x in range(1000):
+        #betweennessC = nx.algorithms.centrality.closeness_centrality(G)
+        betweennessC = nx.algorithms.centrality.betweenness_centrality(G, k=50,normalized=True)  # higher k yields better approx of betweenness
+        sortedB = sorted(betweennessC.items(), key=operator.itemgetter(1), reverse=True)
         try:
-            G.remove_node(nodes[0])
+            G.remove_node(sortedB[0][0])
         except nx.exception.NetworkXError:
             continue
         G.remove_nodes_from(list(nx.isolates(G)))
         percolationThreshold+=1
-        tooLarge = False
-        maximalComponent = 0
-        for x in range(len(list(nx.connected_components(G)))):
-            if len(list(nx.connected_components(G))[x])>maximalComponent:
-                maximalComponent = len(list(nx.connected_components(G))[x])
-        if (maximalComponent > originalGiantComponentSize / 100):
-            print(percolationThreshold, maximalComponent, G.order(), G.size())
-            p.append(percolationThreshold/originalGiantComponentSize)
-            PP.append(maximalComponent/originalGiantComponentSize)
-            tooLarge = True
-
-        if tooLarge==False:
+        largest_cc = max(nx.connected_components(G), key=len)
+        PP.append(len(largest_cc)/originalGiantComponentSize)
+        p.append(percolationThreshold)
+        if (len(largest_cc)/originalGiantComponentSize < 0.01):
             print("Percolation Threshold: ", percolationThreshold, percolationThreshold/originalGiantComponentSize)
             break
-
-    plt.plot(p, PP, '.', color='green')
+    for y in range(len(PPrandom)-len(PP)):
+        PP.append(0)
+    for z in range(len(PPrandom)-len(PPHigh)):
+        PPHigh.append(0)
+    plt.plot(pRandom, PP, '.', color='red', markersize=3, label="Attacking betweenness")
+    plt.plot(pRandom, PPrandom, '.', color='blue', markersize=3, label="Random failures")
+    plt.plot(pRandom, PPHigh, '.', color='green', markersize=3, label="Attacking high-degree")
+    #plt.plot(p, PP, '.', color='red')
+    #plt.plot(pRandom, PPrandom, '.', color='green')
     plt.title("Robustness of Lightning Network")
-    plt.ylabel("PP")
-    plt.xlabel("p")
+    plt.ylabel("Percentage of the giant component")
+    plt.xlabel("Percentage of nodes")
 
+
+    plt.legend(loc="upper right")
+
+    #plt.legend(['Attack', 'Random failures'], loc='upper right')
+
+    plt.show()
 
 
 def percolationThresholdPrediction(deg):
@@ -266,7 +303,7 @@ def basicStatistics(G):
     print("LN's transitivity: ", nx.algorithms.cluster.transitivity(G))
     #print("Average shortest paths: ",nx.algorithms.shortest_paths.generic.average_shortest_path_length(G)) # 2.806222412074612
     #print("LN's largest clique size: ", nx.algorithms.approximation.clique.max_clique(G))
-    #81 onion node :(
+    #only 81 onion node :(
 
 def clusteringCoefficient(G):
     sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
@@ -315,29 +352,35 @@ def centrality(G):
 
 #calculating critical percolation threshold for random failures and attacks
 def randomVertexConnectivity(G):
+    originalGiantComponentSize = len(list(nx.connected_components(G))[0])
+    percolationThreshold = 0
     G.remove_nodes_from(list(nx.connected_components(G))[1])  # there is a small second component
-    sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
-    print(len(list(nx.connected_components(G))))
-    threshold=[]
-    target = 100
-    Gor=[]
-    sortedNodesList=[]
-    for z in range(5):
-        Gor.append(nx.Graph(G))
-        sortedNodesList.append(sorted(Gor[-1].degree(), key=lambda x: x[1], reverse=True))
+    PP = []  # probability that a random node belongs to the giant component
+    p = []  # percolation threshold
+    diameter = []
+    for x in range(30):
+        sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
+        toremove=randint(0,len(sortedNodes)-1)
+        G.remove_node(next(iter(sortedNodes[toremove])))
+        del sortedNodes[toremove]
+        largest_cc = max(nx.connected_components(G), key=len)
+        shortpahts = nx.algorithms.shortest_paths.generic.average_shortest_path_length(G.subgraph(largest_cc))
+        diameter.append(shortpahts)
+        percolationThreshold += 1
+        print(percolationThreshold, len(largest_cc), shortpahts)
+        p.append(percolationThreshold/originalGiantComponentSize)
+        PP.append(len(largest_cc)/originalGiantComponentSize)
+        if(len(largest_cc)/originalGiantComponentSize<0.01):
+            print("Percolation Threshold: ", percolationThreshold, percolationThreshold / originalGiantComponentSize)
+            break
 
-    for y in range(5):
-        for x in range(2340):
-            #randomNode=randint(0,len(sortedNodesList[y])-1)
-            #Gor[y].remove_node(sortedNodesList[y][randomNode][0])
-            #sortedNodesList[y].remove(sortedNodesList[y][randomNode])
+    print(diameter)
+    #plt.plot(p, PP, '.', color='red')
+    #plt.title("Robustness of Lightning Network")
+    #plt.ylabel("Size of giant component")
+    #plt.xlabel("Number of removed nodes")
 
-            Gor[y].remove_node(sortedNodesList[y][x][0])  # LN is on attack
-            if len(list(nx.connected_components(Gor[y]))[0]) < 23:
-                threshold.append(x)
-                print("BOOM",y,x)
-                break
-    print(threshold)
+    return (p,PP)
 
 def vertexConnectivity(G):
     sortedNodes = sorted(G.degree(), key=lambda x: x[1], reverse=True)
