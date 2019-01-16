@@ -330,14 +330,14 @@ Node outage not only affects robustness and connectivity properties, but also af
 \subsection{Improving LN's resilience against random failures and attacks}
 Designing networks which are robust to random failures and targeted attacks appear to be a conflicting desire \cite{barabasi2016network}. For instance a star graph, the simplest hub and spoke network, is resilient to random failures. The removal of any set of spokes does not hurt the connectedness of the main component. However it can not withstand a targeted attack against its central node, since it would leave behind isolated spokes. Furthermore when one attempts increasing robustness of a network, they do desire not to decrease the connectivity of nodes.
 
-A similar optimization strategy of robustness and connectivity \cite{shargel2003optimization} could be applied to LN as well. We leave it for future work to empirically assess the robustness and connectivity gains if strategy of \cite{shargel2003optimization} would be implemented in LN client implementations. 
+A similar optimization strategy of robustness and connectivity to that of \cite{shargel2003optimization} could be applied to LN as well. We leave it for future work to empirically assess the robustness and connectivity gains if strategy of \cite{shargel2003optimization} would be implemented in LN client implementations. 
 
 Nonetheless, we can still enhance the network's attack tolerance by connecting its peripheral nodes \cite{barabasi2016network}. This could be achieved by LN client implementations by implicitly mandating newcomers to connect to not only hubs, as current implementations do, but also to at least a few random nodes. This would largely increase robustness of LN even against targeted attacks. 
 
 \section{Conclusion}
 In summary, a better understanding of the network topology is essential
 for improving the robustness of complex systems, like LN. Networks' resilience depends on their topology. LN is well approximated by the scale-free model and also its attack tolerance properties are similar to those of scale-free networks; in particular, while LN is robust against random failures, it is quite vulnerable in the face of targeted attacks. 
-High-level depictions of LN's topology, like Figure~\ref{fig:lntopology}, convey a false image of security and robustness. As we have demonstrated, LN is structurally weak against rational adversaries. Thus, to provide robust Layer 2 solutions for blockchains, such as LN and Raiden, the community needs to aim at building resilient network topologies.
+High-level depictions of LN's topology, like Figure~\ref{fig:lntopology}, convey a false image of security and robustness. As we have demonstrated, LN is structurally weak against rational adversaries. Thus, to provide robust Layer-2 solutions for blockchains, such as LN and Raiden, the community needs to aim at building resilient network topologies.
 \section{Acknowledgements}
 We are grateful for the insightful comments and discussions to Chris Buckland, Olaoluwa Osuntokun and Alex Bosworth.
 
