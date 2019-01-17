@@ -157,7 +157,7 @@ Recently the Bitcoin \cite{nakamoto2008bitcoin} network celebrated its 10th anni
 	\vspace{-10pt}
 \end{wrapfigure}
 
-To alleviate these scalability issues the Lightning Network (LN) is designed in 2016 \cite{poon2016bitcoin}, and launched in 2018, January. The main insight of LN is that transactions can be issued also off-blockchain in a trust-minimized manner achieving instant transaction confirmation times with negligible fees, whilst retaining the security of the underlying blockchain. 
+To alleviate these scalability issues the Lightning Network (LN) was designed in 2016 \cite{poon2016bitcoin}, and launched in 2018, January. The main insight of LN is that transactions can be issued off-blockchain in a trust-minimized manner achieving instant transaction confirmation times with negligible fees, whilst retaining the security of the underlying blockchain. 
 
 Bidirectional payment channels can be formed on-chain using a construction called Hashed Timelock Contracts (HTLC). Later several payments can take place in a payment channel. The main advantage of payment channels is that one can send and receive thousands of payments with essentially only 2 on-chain transations: the opening and closing channel transactions.
 
@@ -192,7 +192,7 @@ LN can be described as a weighted graph $G=(V,E)$, where $V$ is the set of LN no
 
 
 
-LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations (c-lightning\footnote{https://github.com/ElementsProject/lightning/}, eclair\footnote{https://github.com/ACINQ/eclair} and lnd\footnote{https://github.com/lightningnetwork/lnd}) and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a parse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN is consisted of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
+LN gradually increased adoption and attraction throughout 2018, which resulted in 3 independent client implementations (c-lightning\footnote{https://github.com/ElementsProject/lightning/}, eclair\footnote{https://github.com/ACINQ/eclair} and lnd\footnote{https://github.com/lightningnetwork/lnd}) and \num[group-separator={,}]{2344} nodes joining LN as of 2019, January 3rd. The density of a graph is defined as $D=\frac{2\mid E\mid}{\mid V\mid \mid V-1\mid}$  which is the ratio of present and potential edges. As it is shown in Figure \ref{fig:properties}. LN is quite a sparse graph. This is further justified by the fact that LN has \num[group-separator={,}]{530} bridges, edges which deletion increases the number of connected components. Although LN consists of $2$ components, the second component has only $3$ nodes. The low transitivity, fraction of present and possible triangles in the graph, highlights the sparseness of LN as well.
 
 \begin{wrapfigure}{r}{0.6\textwidth}
 	\caption{LN's degree distribution}\label{fig:degreedist}
@@ -203,9 +203,9 @@ LN gradually increased adoption and attraction throughout 2018, which resulted i
 
 Negative degree assortativity of the graph indicates that on average low degree nodes tend to connect to high degree nodes rather than low degree nodes \cite{newman2002assortative}. Such a dissortative property hints a hub and spoke network structure, which is also reflected in the degree distribution, see Figure~\ref{fig:degreedist}.
 
-Average shortest path length is $2.80623$, which signals that payments can easily be routed with a few hops throughout the whole network. Although this is far from being a straightforward task, since one also needs to take into consideration the capacity of individual payment channels along a candidate path.
+Average shortest path length is $2.80623$, without taking into account capacities of edges, which signals that payments can easily be routed with a few hops throughout the whole network. Although this is far from being a straightforward task, since one also needs to take into consideration the capacity of individual payment channels along a candidate path.
 
-When a new node joins LN, it needs to select which other nodes it is trying to connect to. In the \textit{lnd} LN implementation one of the key goal of a node is to optimize its centrality by connecting to central nodes. This phenomena sets up a preferential attachment pattern. Other LN implementations rely on their users to create channels manually, which also most probably end up users connecting to high-degree nodes. Betweenness centrality of a node $v$ is given by the expression $g(v)=\sum_{s\neq v \neq t}\frac{\sigma_{st}(v)}{\sigma_{st}},$ where $\sigma_{st}$ is the total number of shortest paths between node $s$ and $t$, whilst $\sigma_{st}(v)$ is the number of those paths, that pass through $v$. Closeness centrality  of a node $v$ is defined as $CC(u)=\frac{N}{\sum_{u\neq v}d(u,v)},$ where $N$ is the number of nodes in the graph and $d(u,v)$ is the distance between node $u$ and $v$.  Closeness centrality measures how close a node is to all other nodes. 
+When a new node joins LN, it needs to select which other nodes it is trying to connect to. In the \textit{lnd} LN implementation key goals for a node is to optimize its centrality by connecting to central nodes. This phenomena sets up a preferential attachment pattern. Other LN implementations rely on their users to create channels manually, which also most likely leads to users connecting to high-degree nodes. Betweenness centrality of a node $v$ is given by the expression $g(v)=\sum_{s\neq v \neq t}\frac{\sigma_{st}(v)}{\sigma_{st}},$ where $\sigma_{st}$ is the total number of shortest paths between node $s$ and $t$, whilst $\sigma_{st}(v)$ is the number of those paths, that pass through $v$. Closeness centrality  of a node $v$ is defined as $CC(u)=\frac{N}{\sum_{u\neq v}d(u,v)},$ where $N$ is the number of nodes in the graph and $d(u,v)$ is the distance between node $u$ and $v$.  Closeness centrality measures how close a node is to all other nodes. 
 
 \begin{figure}[h]
 	\centering
@@ -241,9 +241,9 @@ The scale-freeness of LN is further justified also by applying the method introd
 
 \section{Robustness of LN}
 It is a major question in network science how robust a given network is. LN, just like Bitcoin, is a permissionless network, where nodes can join and leave arbitrarily at any point in time. Nodes can also create new payment channels or close them any time. Furthermore as new payments are made, capacities of payment channels are changing steadily. Despite the dynamic nature of LN, its topology's characteristics remain constant after all.
-In this section we investigate how resilient is LN, whether it can effectively withhold random node failures or deliberate attacks.
+In this section we investigate how resilient LN is, whether it can effectively withhold random node failures or deliberate attacks.
 
-Measuring robustness means that one gradually removes nodes and/or edges from the graph, until the giant component is broken into several isolated components. The fraction of nodes need to be removed from a network to break it into multiple isolated connected components is called the percolation threshold and denoted as $f_c$. In real networks percolation threshold can be well estimated by the point where the giant component first drops below $1\%$ of its original size \cite{barabasi2016network}.
+Measuring robustness means that one gradually removes nodes and/or edges from the graph, until the giant component is broken into several isolated components. The fraction of nodes that need to be removed from a network to break it into multiple isolated connected components is called the percolation threshold and is denoted as $f_c$. In real networks percolation threshold can be well estimated by the point where the giant component first drops below $1\%$ of its original size \cite{barabasi2016network}.
 \subsection{Random Failures}
 \begin{wrapfigure}[16]{r}{5.5cm}
 	\begin{tabular}{ | l | c | }
@@ -263,7 +263,7 @@ Measuring robustness means that one gradually removes nodes and/or edges from th
 
 Random failures are a realistic attack vector for LN. If nodes happen to be off-line due to bad connections or other reasons, they can not participate in routing payments anymore. Such a failure can be modeled as if a node and its edges are removed from the graph.    
 
-For scale-free networks with degree distribution $P_{k}=k^{-\gamma}$, where $2 < \gamma < 3$ the percolation threshold can be calculated by applying the Molloy-Reed criteria, ie. $f_{c}=1-\frac{1}{\frac{\gamma-2}{3-\gamma}k_{min}^{\gamma-2}k_{max}^{3-\gamma}-1}$, where $k_{min}$ and $k_{max}$ denote the lowest and highest degree nodes respectively. This formula yields $f_c=0.9797$ for LN in case of random failures. This value is indeed close to the percolation threshold measured by network simulation as shown in Figure~\ref{fig:randfailures}, that is, LN provides an evidence of topological stability under random failures.
+For scale-free networks with degree distribution $P_{k}=k^{-\gamma}$, where $2 < \gamma < 3$ the percolation threshold can be calculated by applying the Molloy-Reed criteria, ie. $f_{c}=1-\frac{1}{\frac{\gamma-2}{3-\gamma}k_{min}^{\gamma-2}k_{max}^{3-\gamma}-1}$, where $k_{min}$ and $k_{max}$ denote the lowest and highest degree nodes respectively. This formula yields $f_c=0.9797$ for LN in case of random failures. This value is indeed close to the percolation threshold measured by network simulation as shown in Figure~\ref{fig:randfailures}, that is, LN provides an evidence of topological stability under random failures. In particular this is due to the fact that in LN a randomly selected node is unlikely to affect the network as a whole, since an average node is not significantly contributing to the network's topological connectivity, see also degree distribution at Figure~\ref{fig:degreedist}. 
 
 \newpage
 \subsection{Targeted attacks}
@@ -339,7 +339,7 @@ In summary, a better understanding of the network topology is essential
 for improving the robustness of complex systems, like LN. Networks' resilience depends on their topology. LN is well approximated by the scale-free model and also its attack tolerance properties are similar to those of scale-free networks; in particular, while LN is robust against random failures, it is quite vulnerable in the face of targeted attacks. 
 High-level depictions of LN's topology, like Figure~\ref{fig:lntopology}, convey a false image of security and robustness. As we have demonstrated, LN is structurally weak against rational adversaries. Thus, to provide robust Layer-2 solutions for blockchains, such as LN and Raiden, the community needs to aim at building resilient network topologies.
 \section{Acknowledgements}
-We are grateful for the insightful comments and discussions to Chris Buckland, Olaoluwa Osuntokun and Alex Bosworth.
+We are grateful for the insightful comments and discussions to Chris Buckland, Daniel Goldman, Olaoluwa Osuntokun and Alex Bosworth.
 
 \bibliographystyle{plain}
 \bibliography{sample}

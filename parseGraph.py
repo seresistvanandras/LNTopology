@@ -574,7 +574,7 @@ def defineGraph(data) -> object:
 
 ##https://graph.lndexplorer.com/api/graph
 def readFile() -> object:
-    with open('graph.json') as f:
+    with open('graph.json')ll e as f:
         data = json.load(f)
     return data['edges']
 

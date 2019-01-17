@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  15 JAN 2019 19:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  16 JAN 2019 22:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2130,11 +2130,6 @@ Overfull \hbox (106.69785pt too wide) in paragraph at lines 200--201
  [] 
  []
 
-
-Underfull \hbox (badness 1365) in paragraph at lines 206--207
-\T1/aer/m/n/10 can eas-ily be routed with a few
- []
-
 [2 <./degreehistogramloglogscale.png>]
 <betweennessCentrality.png, id=95, 462.528pt x 346.896pt>
 File: betweennessCentrality.png Graphic file (type png)
@@ -2170,14 +2165,14 @@ Overfull \hbox (1.12614pt too wide) in paragraph at lines 249--261
  []
 
 [4 <./clusteringCoefficient.png>]
-<vertexConnectivity.png, id=134, 940.2327pt x 513.117pt>
+<vertexConnectivity.png, id=135, 940.2327pt x 513.117pt>
 File: vertexConnectivity.png Graphic file (type png)
 
 <use vertexConnectivity.png>
 Package pdftex.def Info: vertexConnectivity.png used on input line 275.
 (pdftex.def)             Requested size: 256.07741pt x 139.74919pt.
 
-<vertexConnectivity1Removed.png, id=135, 940.2327pt x 513.117pt>
+<vertexConnectivity1Removed.png, id=136, 940.2327pt x 513.117pt>
 File: vertexConnectivity1Removed.png Graphic file (type png)
 
 <use vertexConnectivity1Removed.png>
@@ -2198,7 +2193,7 @@ Overfull \hbox (1.12614pt too wide) in paragraph at lines 291--305
 Package wrapfig Warning: Collision between wrapping environments on input line 
 311.
 
-<attackEffectPathLength.png, id=142, 940.2327pt x 513.117pt>
+<attackEffectPathLength.png, id=143, 940.2327pt x 513.117pt>
 File: attackEffectPathLength.png Graphic file (type png)
 
 <use attackEffectPathLength.png>
@@ -2210,7 +2205,7 @@ Package wrapfig Warning: Stationary wrapfigure forced to float on input line 31
 9.
 
 [5 <./vertexConnectivity.png> <./vertexConnectivity1Removed.png>]
-<randomHighBetweenness.png, id=155, 940.2327pt x 513.117pt>
+<randomHighBetweenness.png, id=156, 940.2327pt x 513.117pt>
 File: randomHighBetweenness.png Graphic file (type png)
 
 <use randomHighBetweenness.png>
@@ -2262,7 +2257,7 @@ Here is how much of TeX's memory you used:
  47295 multiletter control sequences out of 15000+600000
  50163 words of font info for 113 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,9n,92p,10375b,743s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,9n,92p,10375b,739s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
@@ -2283,10 +2278,10 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb>
-Output written on main.pdf (7 pages, 941174 bytes).
+Output written on main.pdf (7 pages, 941603 bytes).
 PDF statistics:
- 256 PDF objects out of 1000 (max. 8388607)
- 202 compressed objects within 3 object streams
+ 257 PDF objects out of 1000 (max. 8388607)
+ 203 compressed objects within 3 object streams
  45 named destinations out of 1000 (max. 500000)
  130 words of extra memory for PDF output out of 10000 (max. 10000000)
 
