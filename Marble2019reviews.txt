@@ -1,0 +1,109 @@
+----------------------- REVIEW 1 ---------------------
+PAPER: 2
+TITLE: Topological Analysis of Bitcoin's Lightning Network
+AUTHORS: István András Seres, László Gulyás, Dániel A. Nagy and Péter Burcsi
+
+Overall evaluation: 2 (accept)
+
+----------- Overall evaluation -----------
+This paper analyses Bitcoin's lightning network (LN) in a graph theoretic way.
+The authors very briefly introduce the LN, its objective and functioning. The main
+part of the paper is the analysis of a snapshot of the LN, which the authors tool on
+the 3rd of January 2019.
+
+The authors determined number of nodes and edges as well as the clustering
+coefficient, bridges, and other standard graph metrics. They discuss the degree
+distribution of the nodes and find that the graph is a hub and spokes network
+(having mostly a star topology, with two star centres). The authors investigate
+the connectivity of the network to determine the robustness under random
+failures. They find that robustness is quite good, because if a random node
+fails, the system will continue to operate, as long as none of the hubs fail.
+
+In dependability analysis this analysis would have been different. Dependable
+systems should always avoid single points of failure, such as a hub and there
+exist many discussions of robustness of network topologies in textbooks
+such as e.g. Krishna and Koren's Fault-Tolerant Systems.
+
+I have two suggestions for improvement of the paper:
+
+1. a more detailed introduction of LN would be nice for the reader who is not so
+familiar with all those details.
+
+2. consideration of dependability literature for robust network topologies could be
+taken into account.
+
+In summary, the paper is nice and of interest to the MARBLE audience and should
+be accepted for the conference.
+
+Some minor comments:
+
+- p. 4: Diameter and radius of LN suggests -> suggest
+
+- p. 6: The spillage of high-degree nodes not only decrease the amount of
+  available liquidity but also rapidly increase the necessary -> decreases, increases
+
+- p. 7: Fig. 8 legend is not legible.
+
+        if strategy of [8] -> the strategy
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 2
+TITLE: Topological Analysis of Bitcoin's Lightning Network
+AUTHORS: István András Seres, László Gulyás, Dániel A. Nagy and Péter Burcsi
+
+Overall evaluation: 2 (accept)
+
+----------- Overall evaluation -----------
+This paper presents a short topological analysis of the Bitcoin Lightning Network (LN). In particular, LN graph has been studied and several graph-related measures are reported, along with interesting insights about the implications of the reported results. Moreover, the authors provide a short study on the robustness on the network and how fragile it is to attacks against the highly connected nodes. 
+
+Moreover, the paper is well-written and a nice reading even for the non-knowledgeable reader about LN. 
+
+In general, I find this report highly interesting and I believe that it will create interesting and fruitful conversations at the workshop. For these reasons, I tend towards accepting this paper.
+
+Room for improvement:
+ - The authors could add a discussion on whether the current LN topology is somewhat influenced by the economic semantics of the links, a crucial aspect where LN departs from other networks used in the study.
+
+ - The authors could also compare with similar topological studies available in the literature about other financial networks such as the Ripple network (Moreno-Sanchez et al., WWW'18). Similarly, while in Fig. 4 authors report the metric f_c for networks other than LN, they do not discuss why different values appear for different networks and what are the implications of that. Elaboration on such aspects could improve the quality of the paper.
+
+ - At certain points in the paper, the authors introduce graph-theory concepts such as betweenness or closeness centrality and yet no further explanation, measurement report or connection with the LN is provided. If certain metrics are not studied on the LN itself, authors could omit their description and use the space to expand of missing discussions (see above).
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 2
+TITLE: Topological Analysis of Bitcoin's Lightning Network
+AUTHORS: István András Seres, László Gulyás, Dániel A. Nagy and Péter Burcsi
+
+Overall evaluation: 2 (accept)
+
+----------- Overall evaluation -----------
+This paper presents a number of statistical properties of the Lightning Network, based on a variety of statistical measures. The authors intend that the paper provides a quantification of the structural properties of the Lightning Network and advance the argument that its topological properties can be ameliorated in order to improve the security of the network. The authors also seek to demonstrate how robust the network is against a variety of attack vectors.  
+
+The paper is successful in providing useful and interesting statistics related to the network. The topology of the Lightning Network is an important issue to investigate and has significant bearing on the adoption of layer-two protocols. 
+
+There are some improvements that could be made to the paper. The abstract could be clearer and capture the full scope of the paper (e.g., including the material on attacks). Also discussing ‘amelioration’ of a topology suggests that it is at present bad, which may not be the intended sentiment; other language may be more accurate. The figures are also very small and in some cases unreadable (e.g. Fig 5). In addition the claim that the network could be improved by connecting its peripheral nodes could be better supported, or at least presented as a possible solution rather than a certain one.
+
+
+----------------------- REVIEW 4 ---------------------
+PAPER: 2
+TITLE: Topological Analysis of Bitcoin's Lightning Network
+AUTHORS: István András Seres, László Gulyás, Dániel A. Nagy and Péter Burcsi
+
+Overall evaluation: 2 (accept)
+
+----------- Overall evaluation -----------
+Summary:
+This paper analyses topology of LN, measures its robustness under different attacks and suggest that LN topology should be improved to increase resilience. In general, it is well done analysis and good recommendations are provided. 
+Given recommendation definitely can be improved by emphasizing Hub and Spoke structure of LN. I also would suggest to use data about channel capacities in analysis, however, this wold greatly increase scope of the paper and amount of work to be done. In more details:
+
+Abstract and intro:
+Bitcoin, its scalability problem and LN as potential solution are quite fully and accurately described. Although minor mistakes are present, for example in sentence:  "Bidirectional payment channels can be formed on-chain using a construction called Hashed Timelock Contracts (HTLC)" - HTLC is used for payments, not for forming channels.
+
+In terms of Robustness of LN:
+Robustness is assessed by measuring percolation threshold within two attack vectors - random failures and targeted attacks (high degree removal and high betweenness removal). Then percolation threshold is compared to other networks like Internet and WWW.
+As proposed ways to improve resilience paper [8] is suggested, though not described. Author's recommendation is "... LN client implementations by implicitly mandating newcomers to connect to not only hubs, as current implementations do, but also to at least a few random nodes"
+
+My comments on this sections would be:
+- do not encounter peripheral nodes when doing LN vertex connectivity analysis under removing vertices attack, since lots of users of LN has one single channel with Hub. Therefore removing of the Hub definitely will have single channel nodes disconnected, but what is more interesting - does node removal affects connectivity of the central clique of Hubs.
+- improve recommendation by suggesting peripheral nodes to open few channels, however, do not use generally random nodes, but random nodes from Hub clique, since peripheral nodes impractical for sending transactions due to small channel capacity and not stable uptime.
+- since authors mention that finally purpose of the analysis is to measure ability to send payments under different attacks, it would be useful to analyze channel capacities and distribution of funds in channels as well. For that, some metrics like "max size of payment that user able to send/receive" need to be introduced. However, this is much more complex approach and definitely out of the scope of this paper.
