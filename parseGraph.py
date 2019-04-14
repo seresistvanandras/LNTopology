@@ -2,10 +2,12 @@ import networkx as nx
 import json
 from pprint import pprint
 import math
+from matplotlib import mlab
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.ticker as mticker
 import random
+import types
 import operator
 from matplotlib.ticker import MaxNLocator
 import collections
@@ -23,14 +25,30 @@ from networkx.algorithms import approximation
 allMoneyStaked = 0
 allWeights = []
 
+def defineGraph(data) -> object:
+    global allMoneyStaked
+    G = nx.Graph()
+    for x in range(len(data)):
+        G.add_edge(data[x]['node2_pub'], data[x]['node1_pub'], capacity=data[x]['capacity'])
+        allWeights.append(int(data[x]['capacity']))
+        allMoneyStaked+=int(data[x]['capacity'])
+    return G
+
+
+##https://graph.lndexplorer.com/api/graph
+def readFile() -> object:
+    with open('graph.json') as f:
+        data = json.load(f)
+    return data['edges']
+
 def main():
-    G=defineGraph(readFile())
+    G = defineGraph(readFile())
     degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
     # print "Degree sequence", degree_sequence
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
 
-    basicStatistics(G)
+    #basicStatistics(G)
     #degreeDistribution(G) #percentile graph needs to be added
     #weightsDistribution(G)
     #shortestPaths(G)
@@ -47,7 +65,72 @@ def main():
     #attackingBetweenness(G,deg, cnt)
     #attackingHighDegrees(G)
     #drawHistogram(G)
-    improvingRobustness(G)
+    #improvingRobustness(G)
+    edgeCapacityDistributions(G)
+
+def edgeCapacityDistributions(G):
+    richestStakers = {}
+    for n in G.nodes():
+        capacityOfn = 0
+        for m in G.neighbors(n):
+            capacityOfn += int(G[n][m]['capacity'])
+        richestStakers[n]=capacityOfn
+    sortedStakers = list(sorted(richestStakers.items(), key=operator.itemgetter(1), reverse=True))
+    sortedCapacities = []
+    for i in sortedStakers:
+        sortedCapacities.append(i[1])
+
+    lostCapacityPercentage = []
+    lostCapacities = []
+    lostCapacity = 0
+    counter = 0
+    for k in sortedStakers:
+        counter+=1
+        lostCapacity+=k[1]
+        lostCapacities.append(k[1])
+        lostCapacityPercentage.append(lostCapacity/allMoneyStaked)
+        print(counter, lostCapacity/allMoneyStaked)
+        for l in G.neighbors(k[0]):
+            index = 0
+            previousCapacity= 0
+            for m in range(len(sortedStakers)):
+                if sortedStakers[m][0]==l:
+                    previousCapacity = sortedStakers[m][1]
+                    index = m
+            del sortedStakers[index]
+            sortedStakers.insert(index,(l,previousCapacity-int(G[k[0]][l]['capacity'])))
+        sortedStakers.remove(k)
+        G.remove_node(k[0])
+        sorted(sortedStakers, key=operator.itemgetter(1), reverse=True)
+        if counter == 50:
+            break
+
+    fig, ax1 = plt.subplots()
+    t = np.arange(0, 50, 1)
+    lns1 = ax1.plot(t, lostCapacityPercentage, 'b-', label='Capacity Loss %')
+
+    ax1.set_xlabel('Number of removed nodes')
+    # Make the y-axis label, ticks and tick labels match the line color.
+    # ax1.set_ylabel('MKR Price', color='b')
+    ax1.set_ylabel('Ratio of lost capacity and balk capacity', color='b')
+    ax1.tick_params('y', colors='b')
+
+    ax2 = ax1.twinx()
+    lns3 = ax2.plot(t, lostCapacities, 'r-', label='Capacity loss in BTC')
+    ax2.set_ylabel('Capacity loss by removing a node in 10 BTC', color='r')
+    ax2.tick_params('y', colors='r')
+
+    # added these three lines
+    lns = lns3 + lns1  # lns2
+    labs = [l.get_label() for l in lns]
+    ax1.legend(lns, labs, loc=5)
+
+    # Put a nicer background color on the legend.
+    # legend.get_frame().set_facecolor('C0')
+
+    fig.tight_layout()
+    plt.show()
+
 
 def improvingRobustness(G):
     originalGiantComponentSize = len(list(nx.connected_components(G))[0])
@@ -64,7 +147,6 @@ def improvingRobustness(G):
         if (len(largest_cc) < originalGiantComponentSize / 100):
             print("Percolation Threshold: ", percolationThreshold, percolationThreshold / originalGiantComponentSize)
             break
-
 
 
 def drawHistogram(G): #attack effect on avg shortest path length
@@ -574,7 +656,7 @@ def defineGraph(data) -> object:
 
 ##https://graph.lndexplorer.com/api/graph
 def readFile() -> object:
-    with open('graph.json')ll e as f:
+    with open('graph.json') as f:
         data = json.load(f)
     return data['edges']
 

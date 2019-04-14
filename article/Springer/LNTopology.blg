@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: LNTopology.aux
+The style file: splncs04.bst
+Database file #1: sample.bib
+Warning--empty journal in nakamoto2008bitcoin
+You've used 11 entries,
+            2850 wiz_defined-function locations,
+            663 strings with 6607 characters,
+and the built_in function-call counts, 5851 in all, are:
+= -- 462
+> -- 197
+< -- 9
++ -- 82
+- -- 70
+* -- 365
+:= -- 756
+add.period$ -- 12
+call.type$ -- 11
+change.case$ -- 70
+chr.to.int$ -- 0
+cite$ -- 12
+duplicate$ -- 528
+empty$ -- 527
+format.name$ -- 80
+if$ -- 1264
+int.to.chr$ -- 0
+int.to.str$ -- 11
+missing$ -- 108
+newline$ -- 39
+num.names$ -- 22
+pop$ -- 216
+preamble$ -- 1
+purify$ -- 56
+quote$ -- 0
+skip$ -- 153
+stack$ -- 0
+substring$ -- 289
+swap$ -- 290
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 42
+warning$ -- 1
+while$ -- 46
+width$ -- 13
+write$ -- 110
+(There was 1 warning)

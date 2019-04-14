@@ -1,0 +1,56 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{barabasi2016network}
+Barab{\'a}si, A.L., et~al.: Network science. Cambridge university press (2016)
+
+\bibitem{clauset2009power}
+Clauset, A., Shalizi, C.R., Newman, M.E.: Power-law distributions in empirical
+  data. SIAM review  \textbf{51}(4),  661--703 (2009)
+
+\bibitem{cryptoeprint:2019:360}
+Gudgeon, L., Moreno-Sanchez, P., Roos, S., McCorry, P., Gervais, A.: Sok: Off
+  the chain transactions. Cryptology ePrint Archive, Report 2019/360 (2019),
+  \url{https://eprint.iacr.org/2019/360}
+
+\bibitem{cryptoeprint:2019:328}
+Herrera-Joancomarti, J., Navarro-Arribas, G., Ranchal-Pedrosa, A.,
+  Pérez-Sola, C., Garcia-Alfaro, J.: On the difficulty of hiding the
+  balance of lightning network channels. Cryptology ePrint Archive, Report
+  2019/328 (2019), \url{https://eprint.iacr.org/2019/328}
+
+\bibitem{li2005towards}
+Li, L., Alderson, D., Doyle, J.C., Willinger, W.: Towards a theory of
+  scale-free graphs: Definition, properties, and implications. Internet
+  Mathematics  \textbf{2}(4),  431--523 (2005)
+
+\bibitem{lin2017assessing}
+Lin, Y., Chen, W., Zhang, Z.: Assessing percolation threshold based on
+  high-order non-backtracking matrices. In: Proceedings of the 26th
+  International Conference on World Wide Web. pp. 223--232. International World
+  Wide Web Conferences Steering Committee (2017)
+
+\bibitem{nakamoto2008bitcoin}
+Nakamoto, S.: Bitcoin: A peer-to-peer electronic cash system  (2008)
+
+\bibitem{poon2016bitcoin}
+Poon, J., Dryja, T.: The bitcoin lightning network: Scalable off-chain instant
+  payments. See https://lightning. network/lightning-network-paper. pdf  (2016)
+
+\bibitem{roos2017settling}
+Roos, S., Moreno-Sanchez, P., Kate, A., Goldberg, I.: Settling payments fast
+  and private: Efficient decentralized routing for path-based transactions.
+  arXiv preprint arXiv:1709.05748  (2017)
+
+\bibitem{shargel2003optimization}
+Shargel, B., Sayama, H., Epstein, I.R., Bar-Yam, Y.: Optimization of robustness
+  and connectivity in complex networks. Physical review letters
+  \textbf{90}(6),  068701 (2003)
+
+\bibitem{watts1998collective}
+Watts, D.J., Strogatz, S.H.: Collective dynamics of ‘small-world’networks.
+  nature  \textbf{393}(6684), ~440 (1998)
+
+\end{thebibliography}

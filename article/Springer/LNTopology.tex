@@ -61,10 +61,10 @@
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
-\author{István András Seres\inst{1} \and
+\author{István András Seres\inst{1}\orcidID{0000-0003-0143-4057} \and
 László Gulyás\inst{1} \and
 Dániel A. Nagy\inst{1} \and
-Péter Burcsi\inst{1}}
+Péter Burcsi\inst{1}\orcidID{0000-0003-3306-6500}}
 %
 \authorrunning{I.A. Seres et al.}
 % First names are abbreviated in the running head.
@@ -72,7 +72,7 @@ Péter Burcsi\inst{1}}
 %
 \institute{Eötvös Loránd University, Budapest 1053, HUN
 \\
-\email{\{seris,lagu,nagyda,bupe\}@inf.elte.hu}}
+\email{istvanseres@caesar.elte.hu,gulyahps.elte.hu,nagy.da@gmail.com,bupe@inf.elte.hu}}
 %
 \maketitle              % typeset the header of the contribution
 %
@@ -84,17 +84,35 @@ Bitcoin's Lightning Network (LN) is a scalability solution for Bitcoin allowing 
 %
 %
 %
-Since its launch, Bitcoin \cite{nakamoto2008bitcoin} gained a huge popularity due to its publicly verifiable, decentralized, permissionless and censorship-resistant nature. This tremendous popularity and increasing interest in Bitcoin pushed its network's throughput to its limits. Without further advancements, the Bitcoin network can only settle $7$ transactions per second (tps), while mainstream centralized payment providers such as Visa and Mastercard can process approximately \num[group-separator={,}]{40000} tps in peak hours. Moreover one might need to pay large transaction fees on the Bitcoin network, while also need to wait 6 new blocks to be published in order to be certain enough that the transaction is included in the blockchain.
+Since its launch, Bitcoin~\cite{nakamoto2008bitcoin} gained a huge popularity due to its publicly verifiable, decentralized, permissionless and censorship-resistant nature. This tremendous popularity and increasing interest in Bitcoin pushed its network's throughput to its limits. Without further advancements, the Bitcoin network can only settle $7$ transactions per second (tps), while mainstream centralized payment providers such as Visa and Mastercard can process approximately \num[group-separator={,}]{40000} tps in peak hours. Moreover one might need to pay large transaction fees on the Bitcoin network, while also need to wait 6 new blocks ($\sim 1$ hour) to be published in order to be certain enough that the transaction is included in the blockchain.
 
 To alleviate these scalability issues the Lightning Network (LN) was designed in 2016 \cite{poon2016bitcoin}, and launched in 2018, January. The main insight of LN is that transactions can be issued off-blockchain in a trust-minimized manner achieving instant transaction confirmation times with negligible fees, whilst retaining the security of the underlying blockchain. Bidirectional payment channels can be formed on-chain using a construction called Hashed Timelock Contracts (HTLC). Later several payments can take place in a payment channel. The main advantage of payment channels is that one can send and receive thousands of payments with essentially only 2 on-chain transations: the opening and closing channel transactions. 
 
 Using these payment channels as building blocks one might establish a payment channel network, where it is not necessary to have direct payment channels between nodes to transact with each other, but they could simply route their payments through other nodes' payment channels.
-Such a network can be built, because LN achieves payments to be made without any counterparty risk, however efficient and privacy-preserving payment routing remains a challenging algorithmic task \cite{roos2017settling}. 
+Such a network can be built, because LN achieves payments to be made without any counterparty risk, however efficient and privacy-preserving payment routing remains a challenging algorithmic task~\cite{roos2017settling}. 
 
 \textbf{Our contributions.} We empirically measure\footnote{https://github.com/seresistvanandras/LNTopology} and describe LN's topology and show how robust it is against both random failures and targeted attacks. These findings suggest that LN's topology can be ameliorated in order to achieve its true potential.
-\section{Lightning Network's Topology}
+\section{Background on Lightning Network}
+In this section we provide a short recap on how LN works. In the following we will use the terms Layer-2 and off-chain interchangeably. LN is a so-called Layer-2 technology, which allows participants issuing transactions without sending a Layer-1 transaction on the Bitcoin parent chain. All parties cooperatively
+open a channel by locking collateral on the blockchain. The funds can only be released by unanimous agreement or through a pre-defined refund condition~\cite{cryptoeprint:2019:360}. One of the greatest challenge of Layer-2 technologies is to solve how participants can agree on new state updates in a trustless or trust-minimized manner.
+
+Let's take the following toy example: Alice and Bob creates by a single Layer-1 transaction a payment channel with initial balances $10\bitcoinA$ and $0\bitcoinA$ respectively. Straightaway Alice can issue off-chain transactions to Bob up to $10\bitcoinA$. Let's assume Alice issued $3$ off-chain transactions to Bob each worth of $1\bitcoinA$. Afterwards Alice's and Bob's balance should be $7\bitcoinA$ and $3\bitcoinA$ and neither Alice, nor Bob should be able to redeem previous balances on the parent chain. LN achieves this by a replace by revocation mechanism, namely both parties collectively
+authorize a new state before revoking the previous state.
+Upon dispute, the blockchain provides a time period for
+parties to prove that the published state is a revoked state \cite{cryptoeprint:2019:360}. Revoking old channel states is achieved by the exchange of revocation secrets. These secrets, hash preimages, are needed to be retained during the channel's lifetime. A penalty mechanism
+discourages parties from broadcasting older states. If one party
+broadcasts a revoked state, the blockchain accepts within a
+time-window proofs of maleficence from the other party. A
+successful dispute allots the winning party \textit{all} coins of the
+channel. In our example if Alice broadcasts a revoked channel state with balances $8\bitcoinA$ and $2\bitcoinA$, Bob can prove, that Alice maliciously broadcasted a revoked state. The penalty mechanism grants all the $10\bitcoinA$ to Bob.
+
+The great insight of LN, is that if now Alice would like to issue a payment to Cecily, who eventually has already established a payment channel to Bob, then Alice does not need to open a payment channel and create a costly on-chain transaction, rather she can route her payment through her payment channel with Bob to Cecily. However the maximum amount of bitcoins Alice can send to Cecily is the minimum of all the individual balances on the payment route from Alice to Cecily. Hashed time-locked contracts (HTLC) enable routed payments to be atomic. For a technical description of HTLCs and multi-hop payments the astute reader is referred to~\cite{poon2016bitcoin}. 
+
+In the following we will model LN as an undirected, weighted graph, where nodes are entities who can issue payments using payment channels which are the edges of the LN graph. The weight on the edges, capacities, are the sum of individual balances. Note, that in most cases individual balances are not known to outsiders. Only the capacity of a payment channel is public information, however one can effectively assess individual balances with handy algorithms~\cite{cryptoeprint:2019:328}. 
+
+\section{Lightning Network's Topology}\label{lntopology}
 \begin{wrapfigure}[21]{r}{6.5cm}
-	\begin{tabular}{ | l | c | }
+	\begin{tabular}{| l | c |}
 		\hline
 		Number of nodes & $2344$  \\ \hline
 		Number of payment channels & $16617$  \\ \hline
@@ -143,13 +161,13 @@ LN's local clustering coefficient distribution suggestively captures that LN is 
 	\caption{Local clustering coefficient of LN}\label{fig:localclustering}
 \end{wrapfigure} 
 
-LN might exhibit scale-free properties as the s-metric suggests. S-metric was first introduced by Lun Li et al. in \cite{li2005towards} and defined as $s(G)=\sum_{(u,v)\in E}deg(u)deg(v)$. The closer to $1$  s-metric of $G$ is, the more scale-free the network. Diameter and radius of LN suggests that LN is a small world. Somewhat scale-freeness is also exhibited in the degree distribution of LN. Majority of nodes have very few payment channels, although there are a few hubs who have significantly more connections as it can be seen in Figure~\ref{fig:degreedist}. The scale-freeness of LN is further justified also by applying the method introduced in \cite{clauset2009power}. The maximum-likelihood fitting asserted that the best fit for the empirical degree distribution is a power law function with exponent $\gamma=-2.1387$. The goodness-of-fit of the scale-free model was ascertained by the Kolmogorov-Smirnov statistic. We found that the $p$-value of the scale-free hypothesis is $p=0.8172$, which is accurate within $0.01$. Therefore the scale-free hypothesis is plausible for the empirical degree distribution of LN.
+LN might exhibit scale-free properties as the s-metric suggests. S-metric was first introduced by Lun Li et al. in \cite{li2005towards} and defined as $s(G)=\sum_{(u,v)\in E}deg(u)deg(v)$. The closer to $1$  s-metric of $G$ is, the more scale-free the network. Diameter and radius of LN suggest that LN is a small world. Somewhat scale-freeness is also exhibited in the degree distribution of LN. Majority of nodes have very few payment channels, although there are a few hubs who have significantly more connections as it can be seen in Figure~\ref{fig:degreedist}. The scale-freeness of LN is further justified also by applying the method introduced in \cite{clauset2009power}. The maximum-likelihood fitting asserted that the best fit for the empirical degree distribution is a power law function with exponent $\gamma=-2.1387$. The goodness-of-fit of the scale-free model was ascertained by the Kolmogorov-Smirnov statistic. We found that the $p$-value of the scale-free hypothesis is $p=0.8172$, which is accurate within $0.01$. Therefore the scale-free hypothesis is plausible for the empirical degree distribution of LN.
 
 \section{Robustness of LN}
 It is a major question in network science how robust a given network is. LN, just like Bitcoin, is a permissionless network, where nodes can join and leave arbitrarily at any point in time. Nodes can also create new payment channels or close them any time. Furthermore as new payments are made, capacities of payment channels are changing steadily. Despite the dynamic nature of LN, its topology's characteristics remain constant after all.
 In this section we investigate how resilient LN is, whether it can effectively withhold random node failures or deliberate attacks.
 
-Measuring robustness means that one gradually removes nodes and/or edges from the graph, until the giant component is broken into several isolated components. The fraction of nodes that need to be removed from a network to break it into multiple isolated connected components is called the percolation threshold and is denoted as $f_c$. In real networks percolation threshold can be well estimated by the point where the giant component first drops below $1\%$ of its original size \cite{barabasi2016network}.
+Measuring robustness means that one gradually removes nodes and/or edges from the graph, until the giant component is broken into several isolated components. The fraction of nodes that need to be removed from a network to break it into multiple isolated connected components is called the percolation threshold and is denoted as $f_c$. In real networks percolation threshold can be well estimated by the point where the giant component first drops below $1\%$ of its original size \cite{barabasi2016network}.  
 \subsection{Random Failures}
 \begin{wrapfigure}[16]{r}{5cm}
 	\begin{tabular}{ | l | c | }
@@ -191,7 +209,7 @@ Targeted attacks on LN nodes are also a major concern as the short history of LN
 
 We reasserted the targeted attack scenario, but for the second time we only removed one of the $30$ largest hubs and recorded the number of connected components. As it can be seen in Figure~\ref{fig:vertecconnectivity1removed} most of the hubs, 25, would leave behind several disconnected components.
 
-\begin{wrapfigure}[17]{r}{5cm}
+\begin{wrapfigure}[19]{r}{5cm}
 	\begin{tabular}{ | l | c | }
 		\hline
 		Network & $f_c$  \\ \hline
@@ -206,7 +224,7 @@ We reasserted the targeted attack scenario, but for the second time we only remo
 		Yeast Protein Interactions & $0.16$ \\ \hline
 		LN & $0.14$ \\ \hline
 	\end{tabular}
-	\caption{Real networks under targeted attacks. Values of critical thresholds for other real networks are taken from \cite{barabasi2016network} and \cite{lin2017assessing}.}\label{fig:randfailures}
+	\caption{Real networks under targeted attacks. Values of critical thresholds for other real networks are taken from \cite{barabasi2016network} and \cite{lin2017assessing}.}\label{fig:targetedfailures}
 \end{wrapfigure}
 
 Such network fragmentations are unwanted in case of LN, because they would make payment routing substantially more challenging (one needs to split the payment over several routes) or even impossible (there would be no routes at all). 
@@ -222,17 +240,22 @@ Furthermore we estimated the percolation threshold by simulating two attacking s
 	\end{minipage}%
 	\begin{minipage}{.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{randomHighBetweenness.png}
-		\captionof{figure}{Percolation thresholds for various attack scenarios: $f_{c}^{HDR}=0.1627$, $f_{c}^{HBR}=0.1409$, $f_{c}^{RND}=0.9645$}\label{fig:randhighbetween}
+		\includegraphics[width=\linewidth]{lostCapacity.png}
+		\captionof{figure}{Lost capacity as removing high-degree nodes}\label{fig:lostCapacity}
 	\end{minipage}
 \end{figure}
 
-Node outage not only affects robustness and connectivity properties, but also affects average shortest path lengths. Although the outage of random nodes does not significantly increase the average shortest path lengths in LN, targeted attacks against hubs increase distances between remaining nodes. The spillage of high-degree nodes not only decrease the amount of available liquidity but also rapidly increase the necessary hops along payment routes as Figure~\ref{fig:attackeffectpath} suggests. This could cause increased ratio of failed payments due to larger payment routes.
+Node outage not only affects robustness and connectivity properties, but also affects average shortest path lengths and available liquidity. Although the outage of random nodes does not significantly increase the average shortest path lengths in LN, targeted attacks against hubs increase distances between remaining nodes. The spillage of high-degree nodes not only decreases the amount of available liquidity but also rapidly increases the necessary hops along payment routes as Figure~\ref{fig:attackeffectpath} and ~\ref{fig:lostCapacity} suggest. This could cause increased ratio of failed payments due to larger payment routes and sparser liquidity. Figure~\ref{fig:lostCapacity} demonstrates how capital allocation is centred upon a few high degree nodes, namely already the removal of as few nodes as $37$ decreases the available liquidity by more than $50\%$. Unfortunately most of these nodes are run by a handful of companies. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{randomHighBetweenness.png}
+	\captionof{figure}{Percolation thresholds for various attack scenarios: $f_{c}^{HDR}=0.1627$, $f_{c}^{HBR}=0.1409$, $f_{c}^{RND}=0.9645$}\label{fig:randhighbetween}
+\end{figure}
 
 \subsection{Improving LN's resilience against random failures and attacks}
-Designing networks which are robust to random failures and targeted attacks appear to be a conflicting desire \cite{barabasi2016network}. For instance a star graph, the simplest hub and spoke network, is resilient to random failures. The removal of any set of spokes does not hurt the connectedness of the main component. However it can not withstand a targeted attack against its central node, since it would leave behind isolated spokes. Furthermore when one attempts increasing robustness of a network, they do desire not to decrease the connectivity of nodes.
+Designing networks which are robust to random failures and targeted attacks appear to be a conflicting desire~\cite{barabasi2016network}. For instance a star graph, the simplest hub and spoke network, is resilient to random failures. The removal of any set of spokes does not hurt the connectedness of the main component. However it can not withstand a targeted attack against its central node, since it would leave behind isolated spokes. Furthermore when one attempts increasing robustness of a network, they do desire not to decrease the connectivity of nodes.
 
-A similar optimization strategy of robustness and connectivity to that of \cite{shargel2003optimization} could be applied to LN as well. We leave it for future work to empirically assess the robustness and connectivity gains if strategy of \cite{shargel2003optimization} would be implemented in LN client implementations. 
+A similar optimization strategy of robustness and connectivity to that of~\cite{shargel2003optimization} could be applied to LN as well. We leave it for future work to empirically assess the robustness and connectivity gains if the strategy of~\cite{shargel2003optimization} would be implemented in LN client implementations. 
 
 Nonetheless, we can still enhance the network's attack tolerance by connecting its peripheral nodes \cite{barabasi2016network}. This could be achieved by LN client implementations by implicitly mandating newcomers to connect to not only hubs, as current implementations do, but also to at least a few random nodes.
 
@@ -240,69 +263,15 @@ Nonetheless, we can still enhance the network's attack tolerance by connecting i
 In summary, a better understanding of the network topology is essential
 for improving the robustness of complex systems, like LN. Networks' resilience depends on their topology. LN is well approximated by the scale-free model and also its attack tolerance properties are similar to those of scale-free networks; in particular, while LN is robust against random failures, it is quite vulnerable in the face of targeted attacks. 
 High-level depictions of LN's topology convey a false image of security and robustness. As we have demonstrated, LN is structurally weak against rational adversaries. Thus, to provide robust Layer-2 solutions for blockchains, such as LN and Raiden, the community needs to aim at building resilient network topologies.
-\section{Acknowledgements}
-We are grateful for the insightful comments and discussions to Chris Buckland, Daniel Goldman, Olaoluwa Osuntokun and Alex Bosworth.
+\paragraph{\textbf{Acknowledgements.}}
+We are grateful for the insightful comments and discussions to Chris Buckland, Daniel Goldman, Olaoluwa Osuntokun and Alex Bosworth. Furthermore we are thankful for Altangent Labs\footnote{\url{https://www.blocktap.io/}} for providing us the invaluable data.  The research at Eötvös Loránd University was partially supported by the European Union, co-financed by the European Social Fund (EFOP-3.6.2-16-2017-00012).
 %
 % ---- Bibliography ----
 %
 % BibTeX users should specify bibliography style 'splncs04'.
 % References will then be sorted and formatted in the correct style.
 %
-% \bibliographystyle{splncs04}
-% \bibliography{sample}
-%
-\begin{thebibliography}{10}
-	
-	\bibitem{barabasi2016network}
-	Albert-L{\'a}szl{\'o} Barab{\'a}si et~al.
-	\newblock {\em Network science}.
-	\newblock Cambridge university press, 2016.
-	
-	\bibitem{clauset2009power}
-	Aaron Clauset, Cosma~Rohilla Shalizi, and Mark~EJ Newman.
-	\newblock Power-law distributions in empirical data.
-	\newblock {\em SIAM review}, 51(4):661--703, 2009.
-	
-	\bibitem{li2005towards}
-	Lun Li, David Alderson, John~C Doyle, and Walter Willinger.
-	\newblock Towards a theory of scale-free graphs: Definition, properties, and
-	implications.
-	\newblock {\em Internet Mathematics}, 2(4):431--523, 2005.
-	
-	\bibitem{lin2017assessing}
-	Yuan Lin, Wei Chen, and Zhongzhi Zhang.
-	\newblock Assessing percolation threshold based on high-order non-backtracking
-	matrices.
-	\newblock In {\em Proceedings of the 26th International Conference on World
-		Wide Web}, pages 223--232. International World Wide Web Conferences Steering
-	Committee, 2017.
-	
-	\bibitem{nakamoto2008bitcoin}
-	Satoshi Nakamoto.
-	\newblock Bitcoin: A peer-to-peer electronic cash system.
-	\newblock 2008.
-	
-	\bibitem{poon2016bitcoin}
-	Joseph Poon and Thaddeus Dryja.
-	\newblock The bitcoin lightning network: Scalable off-chain instant payments.
-	\newblock {\em See https://lightning. network/lightning-network-paper. pdf},
-	2016.
-	
-	\bibitem{roos2017settling}
-	Stefanie Roos, Pedro Moreno-Sanchez, Aniket Kate, and Ian Goldberg.
-	\newblock Settling payments fast and private: Efficient decentralized routing
-	for path-based transactions.
-	\newblock {\em arXiv preprint arXiv:1709.05748}, 2017.
-	
-	\bibitem{shargel2003optimization}
-	Benjamin Shargel, Hiroki Sayama, Irving~R Epstein, and Yaneer Bar-Yam.
-	\newblock Optimization of robustness and connectivity in complex networks.
-	\newblock {\em Physical review letters}, 90(6):068701, 2003.
-	
-	\bibitem{watts1998collective}
-	Duncan~J Watts and Steven~H Strogatz.
-	\newblock Collective dynamics of ‘small-world’networks.
-	\newblock {\em nature}, 393(6684):440, 1998.
-	
-\end{thebibliography}
+\newpage
+\bibliographystyle{splncs04}
+\bibliography{sample}
 \end{document}
