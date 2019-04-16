@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  14 APR 2019 13:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.19)  16 APR 2019 08:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2026,7 +2026,7 @@ r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on LNTopology.pdf (10 pages, 488141 bytes).
+Output written on LNTopology.pdf (10 pages, 488134 bytes).
 PDF statistics:
  143 PDF objects out of 1000 (max. 8388607)
  94 compressed objects within 1 object stream
